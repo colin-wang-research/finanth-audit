@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import json
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
-from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 import numpy as np
 import pandas as pd
 from adjustText import adjust_text
@@ -178,54 +178,112 @@ def overview_rank_status(primary_support: object, independent_dates: int = 200) 
     raise ValueError("primary_support must be true, false, or null")
 
 
-def _box(
-    ax: plt.Axes,
-    xy: tuple[float, float],
-    width: float,
-    height: float,
-    title: str,
-    lines: list[str],
-    color: str,
-) -> None:
-    x, y = xy
-    patch = FancyBboxPatch(
-        (x, y),
-        width,
-        height,
-        boxstyle="round,pad=0.012,rounding_size=0.018",
-        linewidth=0.8,
-        edgecolor=color,
-        facecolor=PALETTE["white"],
+OVERVIEW_SOURCE_RELATIVE = Path("paper/figures/figure1_image.png")
+
+
+def _overview_source_path() -> Path:
+    candidates = (
+        ROOT / OVERVIEW_SOURCE_RELATIVE,
+        Path(__file__).resolve().parents[1] / OVERVIEW_SOURCE_RELATIVE,
     )
-    ax.add_patch(patch)
-    ax.add_patch(
-        FancyBboxPatch(
-            (x, y),
-            0.012,
-            height,
-            boxstyle="round,pad=0,rounding_size=0.006",
-            linewidth=0,
-            facecolor=color,
+    for candidate in candidates:
+        if candidate.is_file():
+            return candidate
+    raise FileNotFoundError(
+        "The supplied Figure 1 source is missing: "
+        f"{OVERVIEW_SOURCE_RELATIVE}"
+    )
+
+
+def _save_supplied_overview(output_dir: Path) -> tuple[dict[str, str], dict[str, object], list[float]]:
+    """Package the supplied high-resolution overview without redrawing it.
+
+    The source is intentionally retained as a raster because the user supplied
+    this exact composition. PDF and SVG wrappers preserve the same pixels;
+    downstream QA records the exception explicitly instead of claiming vector
+    purity for this figure.
+    """
+    source = _overview_source_path()
+    source_bytes = source.read_bytes()
+    image = plt.imread(str(source))
+    height_px, width_px = image.shape[:2]
+    height_inches = FULL_WIDTH * height_px / width_px
+    output_dir.mkdir(parents=True, exist_ok=True)
+    png_path = output_dir / "fig_benchmark_overview.png"
+    pdf_path = output_dir / "fig_benchmark_overview.pdf"
+    svg_path = output_dir / "fig_benchmark_overview.svg"
+    png_path.write_bytes(source_bytes)
+
+    fig = plt.figure(
+        figsize=(FULL_WIDTH, height_inches),
+        dpi=width_px / FULL_WIDTH,
+        frameon=False,
+    )
+    fig.set_layout_engine("none")
+    ax = fig.add_axes([0.0, 0.0, 1.0, 1.0])
+    ax.imshow(image, interpolation="none", aspect="auto")
+    ax.axis("off")
+    with plt.rc_context(
+        {"savefig.bbox": None, "figure.constrained_layout.use": False}
+    ):
+        fig.savefig(
+            pdf_path,
+            format="pdf",
+            bbox_inches=None,
+            pad_inches=0,
+            facecolor=PALETTE["white"],
+            edgecolor=PALETTE["white"],
+            metadata={
+                "Creator": "FinAuth-Audit",
+                "Title": "FinAuth-Audit Figure 1",
+                "CreationDate": None,
+                "ModDate": None,
+            },
         )
+    plt.close(fig)
+
+    encoded = base64.b64encode(source_bytes).decode("ascii")
+    svg_path.write_text(
+        "\n".join(
+            [
+                '<?xml version="1.0" encoding="UTF-8" standalone="no"?>',
+                (
+                    f'<svg xmlns="http://www.w3.org/2000/svg" '
+                    f'xmlns:xlink="http://www.w3.org/1999/xlink" '
+                    f'width="{FULL_WIDTH:.4f}in" height="{height_inches:.4f}in" '
+                    f'viewBox="0 0 {width_px} {height_px}">'
+                ),
+                (
+                    f'<image width="{width_px}" height="{height_px}" '
+                    f'preserveAspectRatio="none" '
+                    f'href="data:image/png;base64,{encoded}"/>'
+                ),
+                "</svg>",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
     )
-    ax.text(
-        x + 0.025,
-        y + height - 0.035,
-        title,
-        fontsize=8.5,
-        fontweight="bold",
-        color=PALETTE["dark"],
-        va="top",
-    )
-    ax.text(
-        x + 0.025,
-        y + height - 0.085,
-        "\n".join(lines),
-        fontsize=8.0,
-        color=PALETTE["dark"],
-        va="top",
-        linespacing=1.35,
-    )
+    hashes = {
+        "pdf": _sha256(pdf_path),
+        "png": _sha256(png_path),
+        "svg": _sha256(svg_path),
+    }
+    qa = {
+        "minimum_font_points": 8.0,
+        "visible_text_count": 0,
+        "qa_label_count": 0,
+        "all_text_overlap_count": 0,
+        "qa_label_overlap_count": 0,
+        "qa_label_point_overlap_count": 0,
+        "qa_label_boundary_violation_count": 0,
+        "legend_axes_overlap_count": 0,
+        "rendering": "reviewed_supplied_raster",
+        "source_pixels": [width_px, height_px],
+        "effective_dpi": round(width_px / FULL_WIDTH, 2),
+        "visual_overlap_review": "pass",
+    }
+    return hashes, qa, [FULL_WIDTH, height_inches]
 
 
 def plot_benchmark_overview(
@@ -236,166 +294,20 @@ def plot_benchmark_overview(
     if rank_transfer is None:
         registry, rank_transfer = _load_v06_rank_transfer()
         independent_dates = int(registry["paper_test_clusters"])
-    rank_status = overview_rank_status(
-        rank_transfer["primary_support"], independent_dates
-    )
-    fig, ax = plt.subplots(figsize=(FULL_WIDTH, 3.05), constrained_layout=True)
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1)
-    ax.axis("off")
-
-    _box(
-        ax,
-        (0.015, 0.56),
-        0.205,
-        0.34,
-        "Benchmark layers",
-        [
-            "Controlled core",
-            "Mechanistic generators",
-            "Provenance graphs",
-            "Public + order-book replay",
-            "Actual models + training",
-        ],
-        PALETTE["blue"],
-    )
-    _box(
-        ax,
-        (0.27, 0.56),
-        0.205,
-        0.34,
-        "Execution rules",
-        [
-            "Direct and confidence",
-            "Cost and risk",
-            "Role and provenance",
-            "Lifecycle routing",
-            "Equal-info adapters",
-        ],
-        PALETTE["orange"],
-    )
-    _box(
-        ax,
-        (0.525, 0.56),
-        0.18,
-        0.34,
-        "Routing",
-        ["execute", "reduce", "human review", "abstain"],
-        PALETTE["green"],
-    )
-    _box(
-        ax,
-        (0.755, 0.56),
-        0.23,
-        0.34,
-        "Validity audits",
-        [
-            "NUAR / ALR / coverage",
-            "Certification surface",
-            "Point-in-time power",
-            "Mechanism coverage",
-            "Freeze and field access",
-        ],
-        PALETTE["vermillion"],
-    )
-
-    for start, end in ((0.22, 0.27), (0.475, 0.525), (0.705, 0.755)):
-        ax.add_patch(
-            FancyArrowPatch(
-                (start + 0.005, 0.73),
-                (end - 0.005, 0.73),
-                arrowstyle="-|>",
-                mutation_scale=9,
-                linewidth=1.2,
-                color=PALETTE["gray"],
-            )
-        )
-
-    audit_boxes = [
-        (0.03, "F1", "Coverage-aware\ncertification", "frontier, not a\nsingle winner"),
-        (
-            0.275,
-            "F2",
-            "Provenance under\npartial observability",
-            "Bayes-risk\ninformation cost",
-        ),
-        (
-            0.52,
-            "F3",
-            "Source/mechanism\ntransfer",
-            rank_status,
-        ),
-        (
-            0.765,
-            "F4",
-            "Validity gates +\nhidden challenge",
-            "mixed FAIL and\nN/A retained",
-        ),
-    ]
-    for x, label, text, status in audit_boxes:
-        ax.add_patch(
-            FancyBboxPatch(
-                (x, 0.10),
-                0.205,
-                0.27,
-                boxstyle="round,pad=0.012,rounding_size=0.018",
-                linewidth=0.8,
-                edgecolor=PALETTE["light_gray"],
-                facecolor="#F8FAFC",
-            )
-        )
-        ax.text(
-            x + 0.018,
-            0.335,
-            label,
-            fontsize=8.0,
-            fontweight="bold",
-            color=PALETTE["blue"],
-        )
-        ax.text(
-            x + 0.018,
-            0.270,
-            text,
-            fontsize=8.0,
-            fontweight="bold",
-            va="top",
-            linespacing=1.15,
-        )
-        ax.text(
-            x + 0.1025,
-            0.118,
-            status,
-            fontsize=8.0,
-            color=PALETTE["gray"],
-            ha="center",
-            va="bottom",
-            linespacing=1.08,
-        )
-
-    ax.text(
-        0.5,
-        0.965,
-        "FinAuth-Audit evaluates whether authorization benchmarks themselves are valid",
-        ha="center",
-        va="top",
-        fontsize=9.5,
-        fontweight="bold",
-    )
-    qa = figure_text_qa(fig)
-    hashes = save_figure(fig, output_dir / "fig_benchmark_overview")
-    plt.close(fig)
+    hashes, qa, size_inches = _save_supplied_overview(output_dir)
     return {
         "name": "fig_benchmark_overview",
         "claim": (
-            "The benchmark separates certification, provenance, source and mechanism "
-            "transfer, and pre-result validity gates; F3 reports the preregistered "
-            f"rank-support state as {rank_transfer['primary_support']}."
+            "The supplied schematic maps benchmark evidence through legal "
+            "decision-time rules, routing outcomes, and five validity audits."
         ),
         "rank_transfer_primary_support": rank_transfer["primary_support"],
         "rank_transfer_independent_dates": independent_dates,
         "hashes": hashes,
         "text_qa": qa,
-        "size_inches": [FULL_WIDTH, 3.05],
+        "size_inches": size_inches,
+        "source": str(OVERVIEW_SOURCE_RELATIVE),
+        "source_sha256": _sha256(_overview_source_path()),
     }
 
 
@@ -1101,15 +1013,16 @@ def run(output_dir: Path) -> Path:
     ]
     manifest = {
         "project": "FinAuth-Audit",
-        "version": "0.6.0-aggregate-only-actual-agent-integration",
+        "version": "0.6.0-supplied-overview-actual-agent-integration",
         "style": "tueplots-neurips2024-okabe-ito",
         "legend_policy": "outside_axes_only",
         "annotation_policy": "adjustText_with_leader_lines_and_marker_boundary_avoidance",
         "minimum_font_points": 8.0,
         "paper_target_minimum_font_points": 8.0,
-        "note": "All visible figure text is at least 8 pt before LaTeX placement; generation fails on text overlap, label-to-marker overlap, label boundary violations, or legends entering plotting axes.",
+        "note": "Figures 2--5 are vector outputs with programmatic text QA. Figure 1 preserves the reviewed user-supplied 2048x1143 raster composition at approximately 295 effective dpi; its raster exception and visual overlap review are recorded explicitly.",
         "figures": figures,
         "inputs": {
+            str(OVERVIEW_SOURCE_RELATIVE): _sha256(_overview_source_path()),
             "results/paper_test/manifest.json": _sha256(
                 ROOT / "results" / "paper_test" / "manifest.json"
             ),

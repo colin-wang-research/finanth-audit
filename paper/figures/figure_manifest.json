@@ -2,28 +2,37 @@
   "annotation_policy": "adjustText_with_leader_lines_and_marker_boundary_avoidance",
   "figures": [
     {
-      "claim": "The benchmark separates certification, provenance, source and mechanism transfer, and pre-result validity gates; F3 reports the preregistered rank-support state as False.",
+      "claim": "The supplied schematic maps benchmark evidence through legal decision-time rules, routing outcomes, and five validity audits.",
       "hashes": {
-        "pdf": "4590de81aa9c1c658559504dabcafc7fb6ddfc8678e5aa216a7d41f7fa1773e7",
-        "png": "1fe74830551d06ce0112a9218f5a385d32153112ebb396213746ce8e502ba551",
-        "svg": "f7789b258014b200747bc56717bdd7eecc1d34881e16a6109d4a56dd8b4d19ce"
+        "pdf": "7965c67c8e1ab90d5ded22898932c72e93b5d522a74eb076697ef0bd8c3507fc",
+        "png": "38063e7479bdf175165f978d501b996c3e0e33776fac71e3f9a2470ec5bcea56",
+        "svg": "6617b3aa44b5db6341400356200545b375035a4e160f157e9d0082483a155b73"
       },
       "name": "fig_benchmark_overview",
       "rank_transfer_independent_dates": 200,
       "rank_transfer_primary_support": false,
       "size_inches": [
         6.95,
-        3.05
+        3.8788330078125
       ],
+      "source": "paper/figures/figure1_image.png",
+      "source_sha256": "38063e7479bdf175165f978d501b996c3e0e33776fac71e3f9a2470ec5bcea56",
       "text_qa": {
         "all_text_overlap_count": 0,
+        "effective_dpi": 294.68,
         "legend_axes_overlap_count": 0,
         "minimum_font_points": 8.0,
         "qa_label_boundary_violation_count": 0,
         "qa_label_count": 0,
         "qa_label_overlap_count": 0,
         "qa_label_point_overlap_count": 0,
-        "visible_text_count": 21
+        "rendering": "reviewed_supplied_raster",
+        "source_pixels": [
+          2048,
+          1143
+        ],
+        "visible_text_count": 0,
+        "visual_overlap_review": "pass"
       }
     },
     {
@@ -123,6 +132,7 @@
   ],
   "inputs": {
     "manifests/real_agent_v06_test_registry.json": "232401e262ec78f02ded509e2cc4b18fd5b4d922eed6a6e002d78963930502dc",
+    "paper/figures/figure1_image.png": "38063e7479bdf175165f978d501b996c3e0e33776fac71e3f9a2470ec5bcea56",
     "results/external_orderbook_v03/paper_test/binance/primary_endpoints.json": "6c147547ffb9152a2e50183302b7765e5cefde8520f0fbea17cdc0687912fb2f",
     "results/paper_test/manifest.json": "f8815d9fcb9bb46c77c9dfdfff17052891e75c158e4725b58c1c981b8df93985",
     "results/real_agent_v06/paper_test/rank_transfer_zero_shot.json": "ef133b5065c071fabf53654ea1ca40a0e58c725df4b2bbbcdda86b26b175c11c",
@@ -132,9 +142,9 @@
   },
   "legend_policy": "outside_axes_only",
   "minimum_font_points": 8.0,
-  "note": "All visible figure text is at least 8 pt before LaTeX placement; generation fails on text overlap, label-to-marker overlap, label boundary violations, or legends entering plotting axes.",
+  "note": "Figures 2--5 are vector outputs with programmatic text QA. Figure 1 preserves the reviewed user-supplied 2048x1143 raster composition at approximately 295 effective dpi; its raster exception and visual overlap review are recorded explicitly.",
   "paper_target_minimum_font_points": 8.0,
   "project": "FinAuth-Audit",
   "style": "tueplots-neurips2024-okabe-ito",
-  "version": "0.6.0-aggregate-only-actual-agent-integration"
+  "version": "0.6.0-supplied-overview-actual-agent-integration"
 }

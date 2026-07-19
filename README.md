@@ -38,7 +38,7 @@ the supplement on pages 10--20.
 
 | Path | Purpose |
 |---|---|
-| `paper/` | Combined PDF, LaTeX source, supplement, generated tables, and vector figures |
+| `paper/` | Combined PDF, LaTeX source, supplement, generated tables, and publication figures (Figure 1 is a reviewed high-resolution raster; Figures 2--5 are vector) |
 | `evaluation/` | Authorization metrics, certification, provenance, transfer, and robustness code |
 | `generators/` | Controlled, provenance, public, order-book, and mechanistic data builders |
 | `results/` | Released aggregate paper-test and public verification outputs only |

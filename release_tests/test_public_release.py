@@ -35,7 +35,7 @@ def test_public_release_identity_and_core_outputs() -> None:
     paper_pdf = ROOT / "paper" / "FinAuth-Audit.pdf"
     assert paper_pdf.stat().st_size > 100_000
     assert _sha256(paper_pdf) == (
-        "153834ba3fda929f34f322a17c1b14f1d76c3eb7b9e3454a02aac6ab04b61cb7"
+        "2b4a8dcbc7cd38696347903ba338b5b25e29ac6391dc6067704f297f3032feaa"
     )
     author_metadata = (ROOT / "paper" / "author_metadata.tex").read_text(
         encoding="utf-8"
