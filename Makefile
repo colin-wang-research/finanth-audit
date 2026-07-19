@@ -1,6 +1,4 @@
 PYTHON ?= .venv/bin/python
-PYTHONPATH := ..
-
 .PHONY: public-check paper html verify-paper submission-preflight submission-finalize release verify-release
 
 public-check:
@@ -23,8 +21,8 @@ submission-finalize:
 	$(PYTHON) paper/finalize_submission.py
 
 release: public-check
-	PYTHONPATH=$(PYTHONPATH) $(PYTHON) -m finauth_audit.release.build_release --output-dir dist
-	PYTHONPATH=$(PYTHONPATH) $(PYTHON) -m finauth_audit.release.verify_release --archive dist/finauth-audit-$$(cat VERSION).tar.gz --report dist/finauth-audit-$$(cat VERSION).verification.json
+	$(PYTHON) release/build_release.py --output-dir dist
+	$(PYTHON) release/verify_release.py --archive dist/finauth-audit-$$(cat VERSION).tar.gz --report dist/finauth-audit-$$(cat VERSION).verification.json
 
 verify-release:
-	PYTHONPATH=$(PYTHONPATH) $(PYTHON) -m finauth_audit.release.verify_release --archive dist/finauth-audit-$$(cat VERSION).tar.gz --report dist/finauth-audit-$$(cat VERSION).verification.json
+	$(PYTHON) release/verify_release.py --archive dist/finauth-audit-$$(cat VERSION).tar.gz --report dist/finauth-audit-$$(cat VERSION).verification.json
