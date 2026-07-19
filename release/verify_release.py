@@ -138,7 +138,7 @@ HIDDEN_SPLIT_VALUES = frozenset(
 )
 
 SUPERSEDED_PILOT_PREFIX = "results/real_agent_v05/"
-CURRENT_STATUS_MEMBER = "FINAL_STATUS_REPORT.md"
+CURRENT_STATUS_MEMBER = "ARTIFACT_CARD.md"
 
 
 def sha256_bytes(payload: bytes) -> str:

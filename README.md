@@ -1,82 +1,94 @@
-# FinAuth-Audit v0.6.0
+# FinAuth-Audit
 
-Public artifact: <https://github.com/colin-wang-research/finanth-audit>
+Validity-aware benchmarking of financial-agent authorization for the KDD 2027
+Datasets and Benchmarks Track.
 
-FinAuth-Audit is a validity-aware benchmark for financial-agent authorization.
-It asks whether an authorization benchmark can make a rule look safe through
-coverage collapse, provenance shortcuts, non-point-in-time public data, or
-benchmark-specific training artifacts.
+FinAuth-Audit evaluates execution rules, not predictors or trading models. Its
+central question is whether an apparently low authorization-risk number remains
+meaningful after auditing coverage, provenance, consequence severity, review
+load, point-in-time legality, and evidence sufficiency.
 
-The controlled/provenance result key `far` is retained for release
-compatibility, but the paper displays it as negative-utility authorization rate
-(NUAR). It measures negative post-cost utility among authorized rows and is not
-a procedural or legal violation label.
+## Reviewer Quick Path
 
-The project is isolated from:
+1. Read the combined paper and supplement: [paper/FinAuth-Audit.pdf](paper/FinAuth-Audit.pdf).
+2. Use the five-minute map: [REVIEWER_GUIDE.md](REVIEWER_GUIDE.md).
+3. Check scope and labels: [docs/benchmark_card.md](docs/benchmark_card.md) and
+   [docs/metric_protocol.md](docs/metric_protocol.md).
+4. Inspect the binding v0.6 aggregate result:
+   [rank_transfer_zero_shot.json](results/real_agent_v06/paper_test/rank_transfer_zero_shot.json).
+5. Inspect public verification:
+   [real-agent-v06_verification.md](results/verification/public/real-agent-v06_verification.md).
 
-- the AAAI EPV method paper;
-- the frozen FinAuth-Bench v0.1.0 artifact;
-- the closed FinAuth-Worlds Branch-N extension.
+The paper has 20 pages: main content on pages 1--8, references on page 9, and
+the supplement on pages 10--20.
 
-EPV is one baseline. It is not the benchmark identity, title, contribution, or
-default recommended rule.
+## Headline Findings
 
-The repository contains a frozen controlled/provenance paper test, a separately
-frozen external order-book test, and a prospective 300-date actual-model
-extension. The latter uses five assets and two authorization tasks, selects
-thresholds only on 50 development dates, evaluates 1,200 cached proposals once
-on 200 paper-test dates, and preserves 50 author-unevaluated holdout dates as
-encrypted proposal ciphertext. It is a rule-transfer task, not a model
-leaderboard.
+- The legacy artifact field `far` is displayed as negative-utility
+  authorization rate (NUAR); it is not a procedural-illegality label.
+- Low NUAR can coexist with coverage collapse, authority laundering, high
+  review load, or missed opportunity.
+- A clean current source role does not prove clean upstream lineage.
+- The preregistered 200-date actual-model test does not reproduce the earlier
+  60-date inverse-transfer pilot claim.
+- Underpowered, mixed, or coverage-collapsed endpoints remain exploratory or
+  structural `N/A` rather than being promoted as wins.
 
-The v0.6 result does not support the preregistered inverse rank-transfer
-hypothesis that was motivated by a 60-date pilot. It also reports economic
-loss, material harm, tail harm, and authority violation separately, and retains
-Lifecycle recalibration as structural `N/A` because no development candidate
-met the frozen coverage floor.
+## Repository Map
 
-The development/paper proposal cache has raw schema validity 0.994. Nine
-expected records remain deterministic non-action placeholders in the task
-denominators, with zero repairs and no favorable reruns.
+| Path | Purpose |
+|---|---|
+| `paper/` | Combined PDF, LaTeX source, supplement, generated tables, and vector figures |
+| `evaluation/` | Authorization metrics, certification, provenance, transfer, and robustness code |
+| `generators/` | Controlled, provenance, public, order-book, and mechanistic data builders |
+| `results/` | Released aggregate paper-test and public verification outputs only |
+| `docs/` | Benchmark, data, metric, release, and reproducibility protocols |
+| `release/` | Allowlist builder and clean-room verifier |
+| `release_tests/` | Public-package regression tests |
 
-Build the allowlist release with `make release`. The release
-excludes community-hidden outcomes, raw provider envelopes, licensed Databento
-row-level data, raw third-party archives, and credentials. It is a research
-benchmark artifact, not investment advice, a live trading system, or deployment
-approval.
+Internal logs, review transcripts, hidden proposal plaintext, hidden keys,
+provider responses, row-level decisions, raw third-party archives, and licensed
+Databento rows are not in this repository.
 
-## Quick Start
+## Verify the Public Package
 
 ```bash
 git clone https://github.com/colin-wang-research/finanth-audit.git
-cd finauth-audit
+cd finanth-audit
 python -m venv .venv
 . .venv/bin/activate
 python -m pip install ".[test]"
-python -m pytest -q release_tests
+make public-check
+make release
 ```
 
-The checked-in PDF, generated tables, vector figures, aggregate paper-test
-outputs, manifests, and public verification reports are part of the release.
+`make release` creates a deterministic allowlist archive and runs the public
+clean-room verifier. The versioned GitHub Release also provides the strict PDF,
+checksums, build manifest, archive, and verification report.
+
+## Rebuild the Paper
+
+```bash
+make submission-preflight
+make submission-finalize
+```
+
+The public package compiles the checked-in, hash-verified tables and figures.
+Private frozen registries are deliberately excluded; the public finalizer does
+not attempt to regenerate outputs that require those sealed inputs.
 
 ## Data Accessibility
 
-All headline controlled/provenance benchmark functionality and the public
-Binance order-book reproduction are available without redistributing licensed
-MES records. The MES experiment is an optional licensed replication layer using
-Databento `GLBX.MDP3` continuous MES `bbo-1s` data. Researchers with the
-corresponding entitlement can reconstruct it from the public Databento dataset
-entry at <https://databento.com/datasets/GLBX.MDP3> using the documented schema,
-dates, session filters, scripts, manifests, and checksums. Row-level Databento
-records are not redistributed because of license constraints.
+Headline controlled/provenance functionality and the public Binance
+order-book layer are reproducible without licensed market data. MES is an
+optional replication layer using Databento `GLBX.MDP3` continuous MES `bbo-1s`
+data. Entitled researchers can reconstruct it from
+<https://databento.com/datasets/GLBX.MDP3>; row-level records are not
+redistributed.
 
-## KDD Submission Finalization
+## Scope
 
-Complete author metadata is required for the strict build. Validate it with
-`make submission-preflight`, then run `make submission-finalize`. The finalizer compiles
-`paper/main.tex`, requires strict paper verification, and writes the submission
-PDF, manifest, and SHA-256 sidecar under the workspace-level `paper/kdd/`. The
-anonymous internal mirror has the explicit suffix `INTERNAL-ANONYMOUS`. See
-`docs/submission_handoff.md` for the ACM metadata format and external-file
-workflow. The paper Makefile fixes `SOURCE_DATE_EPOCH` for v0.6.0, so repeated
-builds from the same release produce the same PDF bytes and checksum.
+This artifact is a benchmark and release protocol. It is not a trading
+strategy, investment advice, a model leaderboard, institutional approval
+evidence, or a deployment claim. See [ARTIFACT_CARD.md](ARTIFACT_CARD.md) for
+the exact frozen-result and release boundary.

@@ -84,7 +84,7 @@ def verify_paper(
     required = [
         PDF_PATH,
         PAPER_DIR / "main.tex",
-        PAPER_DIR / "main_internal.tex",
+        ROOT / "ARTIFACT_CARD.md",
         PAPER_DIR / "supplement.tex",
         PAPER_DIR / "references.bib",
         PAPER_DIR / "author_metadata.tex",
@@ -100,7 +100,7 @@ def verify_paper(
         ROOT / "docs" / "reproducibility.md",
         ROOT / "docs" / "maintenance.md",
         ROOT / "docs" / "external_submission_protocol.md",
-        ROOT / "docs" / "submission_handoff.md",
+        ROOT / "REVIEWER_GUIDE.md",
         ROOT / "release" / "release_spec.json",
         ROOT / "results" / "verification" / "public" / "real-agent-v06_verification.json",
         ROOT / "results" / "real_agent_v06" / "paper_test" / "rank_transfer_zero_shot.json",
@@ -186,7 +186,7 @@ def verify_paper(
         for token in ("submission-preflight", "submission-finalize")
     ) and {
         "paper/finalize_submission.py",
-        "docs/submission_handoff.md",
+        "ARTIFACT_CARD.md",
     }.issubset(submission_required)
     add_check(
         checks,

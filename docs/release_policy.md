@@ -22,7 +22,7 @@ innocuous column names.
 The earlier v0.5 actual-model aggregates are pilot evidence superseded for the
 registered inverse-transfer claim. They remain in the private audit repository
 but are not members of the v0.6 public release. The verifier rejects any
-`results/real_agent_v05/` member, requires `FINAL_STATUS_REPORT.md` to identify
+`results/real_agent_v05/` member, requires `ARTIFACT_CARD.md` to identify
 version 0.6.0 and the binding `rho=+0.657`, `p=0.932` non-replication, and rejects
 a status report that promotes the old negative pilot correlation.
 
@@ -44,7 +44,7 @@ It also checks release-level claim consistency so that path and hash integrity
 cannot mask stale scientific conclusions.
 
 The public artifact includes `paper/finalize_submission.py` and
-`docs/submission_handoff.md`. The finalizer accepts only the canonical author
+`REVIEWER_GUIDE.md`. The finalizer accepts only the canonical author
 metadata file for compilation, fails before LaTeX while placeholders remain,
 and requires the strict paper verifier before publishing a submission PDF.
 

@@ -110,7 +110,7 @@ def test_release_contains_no_row_level_or_hidden_material() -> None:
     }
 
 
-def test_release_excludes_superseded_pilot_and_status_is_current() -> None:
+def test_release_excludes_superseded_pilot_and_artifact_card_is_current() -> None:
     relative_files = {
         path.relative_to(ROOT).as_posix()
         for path in collect_files(ROOT, _spec())
@@ -118,13 +118,13 @@ def test_release_excludes_superseded_pilot_and_status_is_current() -> None:
     assert not {
         path for path in relative_files if path.startswith("results/real_agent_v05/")
     }
-    status = (ROOT / "FINAL_STATUS_REPORT.md").read_bytes()
-    audit_claim_consistency({"FINAL_STATUS_REPORT.md": status}, version="0.6.0")
+    status = (ROOT / "ARTIFACT_CARD.md").read_bytes()
+    audit_claim_consistency({"ARTIFACT_CARD.md": status}, version="0.6.0")
 
     with pytest.raises(RuntimeError, match="superseded v0.5 pilot"):
         audit_claim_consistency(
             {
-                "FINAL_STATUS_REPORT.md": status,
+                "ARTIFACT_CARD.md": status,
                 "results/real_agent_v05/paper_test/ranking_transfer.json": b"{}",
             },
             version="0.6.0",
@@ -133,8 +133,28 @@ def test_release_excludes_superseded_pilot_and_status_is_current() -> None:
     stale_status = status.replace(b"Spearman rho: **+0.657**", b"-0.928")
     with pytest.raises(RuntimeError, match="stale or claim-incomplete"):
         audit_claim_consistency(
-            {"FINAL_STATUS_REPORT.md": stale_status}, version="0.6.0"
+            {"ARTIFACT_CARD.md": stale_status}, version="0.6.0"
         )
+
+
+def test_reviewer_tree_excludes_internal_workspace_files() -> None:
+    for relative in (
+        "FINAL_STATUS_REPORT.md",
+        "paper/main_internal.tex",
+        "docs/submission_handoff.md",
+        "docs/aaai_kdd_overlap_ledger.md",
+        "docs/current_artifact_audit.md",
+        "docs/risk_register.md",
+    ):
+        assert not (ROOT / relative).exists(), relative
+    assert (ROOT / "REVIEWER_GUIDE.md").is_file()
+    assert (ROOT / "ARTIFACT_CARD.md").is_file()
+    public_verifier = ROOT / "verify_artifact.py"
+    assert public_verifier.is_file()
+    assert public_verifier.stat().st_size < 10_000
+    verifier_text = public_verifier.read_text(encoding="utf-8")
+    assert "manifests/real_agent_v06" not in verifier_text
+    assert "community_hidden" not in verifier_text
 
 
 def test_extracted_release_rebuilds_and_verifies(tmp_path: Path) -> None:

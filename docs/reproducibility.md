@@ -30,7 +30,7 @@ without redistributing licensed Databento rows or raw provider envelopes.
 
 ```bash
 .venv/bin/python finauth_audit/paper/verify_paper.py
-.venv/bin/python finauth_audit/verify_artifact.py \
+.venv/bin/python verify_artifact.py \
   --phase real-agent-v06 --run-tests
 ```
 
