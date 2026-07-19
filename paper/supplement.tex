@@ -1,0 +1,295 @@
+\section{Artifact and Reproduction}
+The aggregate v0.6 release combines the frozen v0.2 controlled/provenance
+surface, prospective robustness extensions, the separately frozen v0.3
+external order-book surface, and the frozen v0.6 actual-model proposal
+extension. Every data and result layer records a configuration hash, data hash,
+split registry, seed registry, output hashes, and claim boundary. The aggregate
+verifier transitively checks the earlier surfaces and the v0.6 freeze-to-result
+chain; the repository suite is rerun before release. The controlled paper
+test is bound to content-addressed archive \texttt{be95f4d1...98aa8} and took
+80.59 seconds on the development machine with peak resident memory about
+550 MB. Re-running any inspected one-time paper test is prohibited except for a
+versioned correctness defect that preserves the original output.
+
+\begin{table*}[h]
+  \caption{\textbf{FinAuth-Audit treats benchmark validity as the evaluation object.} ``Rules'' denotes explicit comparison of execution or decision rules; the remaining columns denote validity audits, not generic safety features.}
+  \label{tab:benchmark_comparison}
+  \centering
+  \benchmarktableformat
+  \input{generated/table_benchmark_comparison}
+\end{table*}
+
+\begin{table*}[h]
+  \caption{Artifact components and machine-checkable release paths.}
+  \label{tab:artifact_checklist}
+  \centering
+  \benchmarktableformat
+  \input{generated/table_artifact_checklist}
+\end{table*}
+
+The figure generator writes PDF, SVG, and PNG from one source and records a minimum visible font size of 8 pt. Generation fails if marked point labels overlap. The table generator reads frozen result files and records input/output hashes in \texttt{table\_manifest.json}; no reported numeric result is hand-entered into the manuscript. A page-faithful HTML bundle mirrors the combined PDF, while the benchmark card, reproduction guide, maintenance policy, and external-submission protocol state the community-use contract.
+
+\begin{figure*}[h]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_benchmark_overview.pdf}
+  \Description{Flow diagram from benchmark layers through execution rules and four routing decisions to validity audits, followed by four finding boxes for certification, provenance, source transfer, and evidence gates.}
+  \caption{\textbf{FinAuth-Audit separates benchmark layers, execution rules, routing outcomes, and validity gates.} Controlled rows support certification; provenance rows perturb authority chains; public rows are restricted by decision-time availability; and matched training corpora test mechanism coverage. The v0.6 F3 box is generated from the frozen primary-support flag and records that inverse rank transfer is not supported.}
+  \label{fig:overview}
+\end{figure*}
+
+\section{Controlled Certification Details}
+The controlled evaluation excludes the explicit no-opportunity slice from certification but reports it as a negative control. Table~\ref{tab:certification_profiles} gives the cluster-bootstrap bounds used by the frozen 120-cell surface. A zero-action bootstrap replicate contributes coverage zero and execution-denominator metrics \textit{N/A}. If every replicate is undefined, no dependent cell passes.
+
+\begin{table*}[h]
+  \caption{\textbf{Pre-frozen policy families and continuous hypervolume do not define a universal winner.} Values are worst-profile validation pass fractions over each author-specified grid. The conservative family certifies no rule; Lifecycle has nonzero balanced and coverage-first volume, while Hard Role Gate has the largest continuous conservative hypervolume. These are sensitivity diagnostics, not practitioner-elicited thresholds.}
+  \label{tab:policy_families}
+  \centering
+  \benchmarktableformat
+  \input{generated/table_policy_families}
+\end{table*}
+
+\begin{table*}[h]
+\caption{One-sided cluster-bootstrap bounds and certification volumes by rule and profile on the paper test.}
+  \label{tab:certification_profiles}
+  \centering
+  \benchmarktableformat
+  \input{generated/table_certification_profiles}
+\end{table*}
+
+The paper-test opportunity rates are ordinary 0.450, moderate stress 0.386, severe stress 0.236, rare safe opportunity 0.131, high missed opportunity 0.507, stress-only period 0.195, and no-opportunity control 0.000. The oracle-positive label is outcome-only and is never available to a rule.
+
+\section{Provenance Definitions and Strata}
+Direct leakage authorizes a currently ineligible source. Indirect leakage authorizes a currently eligible source whose original authority is ineligible. ALR uses the same authorized-action denominator as indirect laundering truth. Safe-delegation coverage is the fraction of eligible delegated positive opportunities that remain authorized; false block is its complement. Table~\ref{tab:provenance_traceability} separates the traceable and untraceable strata.
+
+\begin{table*}[h]
+\caption{Traceability-specific provenance outcomes on the paper test. \textit{N/A} is structural when a rule authorizes zero rows in a stratum.}
+  \label{tab:provenance_traceability}
+  \centering
+  \benchmarktableformat
+  \input{generated/table_provenance_traceability}
+\end{table*}
+
+Traceable rows include the attested lineage-role chain needed to detect laundering in principle. Untraceable rows omit that evidence. On the paper test, Provenance Hard Gate has traceable coverage 0.724 and untraceable coverage zero; its untraceable FAR and ALR are undefined rather than zero. The empirical current-role-only Bayes error lower bound rises from 0.129 on traceable rows to 0.256 on untraceable rows, while legal partial signatures reduce the corresponding bounds to 0.061 and 0.083. This is an evidence-availability boundary, not a claim that a detector should infer hidden lineage.
+
+\paragraph{Proof of Equation~\eqref{eq:provenance-bayes-risk}.}
+For a fixed observable signature $x$, any deterministic rule $h$ predicts either zero or one. Its error mass at $x$ is therefore either $\Pr(X=x,L=1)$ or $\Pr(X=x,L=0)$, and the smaller achievable mass is their minimum. Summing independently over signatures proves the first equality. A randomized rule takes a convex combination of the same two error masses and cannot improve the minimum. Under equal priors, write $p_\ell(x)=\Pr(X=x\mid L=\ell)$; then
+\begin{align*}
+ \sum_x \min\{\tfrac12p_0(x),\tfrac12p_1(x)\}
+ &=\tfrac12\left(1-\tfrac12\sum_x|p_0(x)-p_1(x)|\right)\\
+ &=\tfrac12(1-\mathrm{TV}(P_0,P_1)).
+\end{align*}
+The audit uses empirical signature frequencies in place of joint probabilities. Its minority count is the exact minimum empirical error for rules using that signature, not a distribution-free bound for another institution or period.
+
+\begin{table*}[h]
+  \caption{\textbf{Legal observability controls the minimum empirical laundering-classification error.} Joint separation is the weighted empirical separation term in Equation~\eqref{eq:provenance-bayes-risk}; the implementation verifies the corresponding overlap identity to numerical precision.}
+  \label{tab:provenance_identifiability}
+  \centering
+  \benchmarktableformat
+  \input{generated/table_provenance_identifiability}
+\end{table*}
+
+\section{Public Point-in-Time Gate}
+The Polymarket metadata window is 2022-01-01 through 2026-07-17. Monthly sampling caps each month at 120 clusters and each series/month at 12 clusters. Twenty-three high-activity months reached the frozen pagination limit and are disclosed as truncated. Historical probability comes from CLOB price history when available and documented public trades otherwise. The fixed decision time is 35\% of scheduled lifecycle; the source probability precedes the decision, and the first execution observation follows it but precedes resolution.
+
+\begin{table*}[h]
+  \caption{Public-source classifications and the pre-result power gate. The point-in-time layer remains \texttt{exploratory\_only} because power is below the frozen requirement; no public test outcome is reported.}
+  \label{tab:public_power}
+  \centering
+  \benchmarktableformat
+  \input{generated/table_public_power_gate}
+\end{table*}
+
+The first CLOB-only design produced sufficient histories for 516 candidate markets. A documented read-only trades fallback increased structural usability without creating synthetic probabilities, spread, or depth. An earlier 3,000-cluster design covered only about 19 hours and was rejected as externally narrow before result inspection. Both negative design iterations remain in the project log.
+
+\section{External Order-Book Replication}
+The separately versioned v0.3 extension freezes public Binance USD-M futures
+banded depth plus one-minute bars and licensed Databento MES BBO before outcome
+evaluation. It is observed market-outcome replay with constructed priors and
+assigned roles. Binance uses 500 UTC-date paper-test clusters; planning power
+under the frozen v0.2 variance model is 0.970 and 0.965 for the two registered
+SESOIs. MES uses 140 RTH-session clusters
+and is classified as descriptive because its corresponding design powers are
+0.528 and 0.514. Feature rows and sealed execution inputs are separate; returns,
+post-cost utility, harm, and burden are materialized only after freeze
+verification inside the write-once evaluator.
+
+\begin{table*}[h]
+  \caption{\textbf{The external intersection-union claim fails, and observed market data do not make weak priors or authority roles observational.} Panel A reports Cost-Aware Gate minus Lifecycle Checklist. Binance is confirmatory; MES is licensed descriptive evidence, and its fixed six-prior laundering contrast is structural. Panel B separates observed, pre-decision derived, benchmark-assigned, and sealed outcome-only fields.}
+  \label{tab:external_orderbook}
+  \label{tab:external_field_origins}
+  \centering
+  \benchmarktableformat
+  \textit{Panel A: frozen external replication outcomes.}\par\smallskip
+  \input{generated/table_external_orderbook}
+  \par\medskip
+  \textit{Panel B: field origins and evaluation boundary.}\par\smallskip
+  \input{generated/table_external_field_origins}
+  \par\medskip
+  \begin{minipage}{0.96\textwidth}
+  \small
+  \textit{Sensitivity and release boundary.}
+  The Binance seven-day moving-block sensitivity preserves the arm-level
+  interpretation. At the frozen primary 8-bps fee, only false-authorization
+  burden passes. A 4-bps sensitivity passes both arms, whereas 12 bps passes
+  neither; these fee-grid results use fewer bootstrap replicates and remain
+  secondary. No sensitivity replaces the registered primary. Binance releases
+  source archives, official checksums, derived rows, manifests, and code. MES
+  reproduction requires Databento entitlement, and row-level licensed data are
+  not redistributed. MES is an optional licensed replication layer; all
+  headline benchmark functionality and primary controlled/provenance
+  evaluations are reproducible without redistributing MES records. The public
+  dataset entry, exact schema, date/session definitions, reconstruction scripts,
+  manifests, and checksums are documented in the artifact.
+  \end{minipage}
+\end{table*}
+
+\FloatBarrier
+
+\section{Actual Model Proposal Extension}
+The v0.6 extension evaluates actual cached proposal outputs rather than
+deterministic agent stubs. GPT-5.4-mini, GPT-5.5, and Claude Sonnet 4.6 receive
+the same legal pre-decision context on 300 independent dates assigned across
+BTC, ETH, BNB, SOL, and XRP. Each date includes a directional-execution task and
+a 25\% risk-limit-increase task. Directional sources are eligible edge
+proposers; risk-limit source role is assigned by frozen event-ID parity as an
+eligible proposer or evidence-only critic before generation. The chronological
+partition is 50 development, 200 one-time paper test, and 50 author-unevaluated
+holdout dates. The holdout contexts were sent to the same model configurations
+before outcome evaluation; 300 proposal rows were encrypted, their key remains
+outside the repository, and the ciphertext was not decrypted.
+
+The development/paper cache contains 1,500 plaintext proposal rows and has raw
+schema validity 0.994. Nine expected records remain malformed placeholders,
+there are zero repairs, and no outcome-conditioned or favorable rerun is
+permitted. One extra record was ignored under the preapproved duplicate/extra
+record policy. Rationales and self-reported evidence are retained in private
+audit caches but prohibited from every execution rule and excluded from the
+aggregate public release. The explicit historical-memory lexical audit finds no
+registered retrospective phrase, but cannot establish absence of implicit
+model memory.
+
+\begin{table*}[h]
+  \caption{\textbf{Economic loss, material harm, and authority violation are distinct zero-shot endpoints.} The table reports overall operating points across \RealAgentRankIndependentUnitCount{} UTC-date clusters. Economic loss applies to directional authorization; material harm pools preregistered task-specific severity; authority violation enforces the declared evidence-only critic boundary. Utility is normalized task utility, not profit.}
+  \label{tab:real_agent_overall}
+  \centering
+  \benchmarktableformat
+  \input{generated/table_real_agent_overall}
+\end{table*}
+
+\begin{table*}[h]
+  \caption{\textbf{Task-specific zero-shot and development-recalibrated operating points retain structural \textit{N/A}.} Bounds use 10,000 UTC-date cluster-bootstrap replicates over 200 dates. Model abstention remains in the task denominator but cannot be authorized. Lifecycle has no recalibrated point because no development candidate meets the frozen coverage floor.}
+  \label{tab:real_agent_rules}
+  \centering
+  \benchmarktableformat
+  \input{generated/table_real_agent_rules}
+\end{table*}
+
+\begin{table*}[h]
+  \caption{\textbf{The prospective inverse-rank hypothesis is not supported.} The primary row uses six shared directional rules. The registered leave-one-rule-out sensitivity shows perfect concordance after omitting Lifecycle; it is not a replacement primary endpoint. Exact $p$ uses the preregistered inverse-or-more-extreme alternative.}
+  \label{tab:real_agent_transfer}
+  \centering
+  \benchmarktableformat
+\input{generated/table_real_agent_transfer}
+\end{table*}
+
+\RealAgentRankSupportClaim{} The point estimate is $\rho=\RealAgentRankSpearman$
+with Kendall $\tau_b=\RealAgentRankKendall$; the bootstrap median and 95\%
+interval are \RealAgentRankBootstrapMedian{} [\RealAgentRankBootstrapLCB,
+\RealAgentRankBootstrapUCB], and $\Pr(\rho<0)=\RealAgentRankNegativeProbability$.
+Only \RealAgentPairwiseReversalCount{} of \RealAgentPairwiseComparisonCount{}
+pairwise orderings reverse, all involving Lifecycle and near-tied differences.
+Model-specific point estimates range from $-0.029$ to $0.714$ and asset-specific
+estimates from $-0.143$ to $0.812$, with intervals spanning zero; these are
+underpowered diagnostics, not model or asset rankings. The earlier 60-date
+v0.5 pilot value $-0.928$ is retained only as the motivation for the
+prospective design and is superseded for the inverse-transfer claim.
+
+\begin{table*}[h]
+  \caption{\textbf{Development-only threshold recalibration restores coverage but does not uniformly improve authority quality.} Differences are recalibrated minus zero-shot on the one-time paper test. Rule forms remain unchanged. Lifecycle is structural \textit{N/A} because none of 36 development candidates reached the 0.10 coverage floor; the floor was not relaxed.}
+  \label{tab:real_agent_recalibration}
+  \centering
+  \benchmarktableformat
+  \input{generated/table_real_agent_recalibration}
+\end{table*}
+
+\begin{table*}[h]
+  \caption{\textbf{Source-format quality is reported separately from authorization quality.} Rows describe proposal-source behavior under the same task, not a model leaderboard. Review flag is model-recommended metadata and is not direct execution evidence.}
+  \label{tab:real_agent_sources}
+  \centering
+  \benchmarktableformat
+  \input{generated/table_real_agent_sources}
+\end{table*}
+
+The recalibrated track is explicitly secondary. Confidence and Uncertainty
+recover coverage but increase authority violation; Risk Filter changes little;
+Cost-Aware gains modest coverage; Lifecycle remains undefined. These results
+separate zero-shot threshold transport from in-domain threshold selection, but
+do not establish a universally transferable rule form. The extension does not
+support model superiority, institutional permission, deployment readiness,
+investment advice, or trading profitability.
+
+\FloatBarrier
+
+\section{Training Utility Details}
+Each D0--D7 variant uses matched cluster and hyperparameter budgets. The primary learner is logistic regression with $C\in\{0.1,1,10\}$ selected on seen validation mechanisms. The threshold is also selected on validation only. The four endpoint mechanisms are severe controlled stress, stress-only-period controlled rows, provenance paraphrase, and provenance multi-hop. A seed endpoint is valid only when all four coverage LCBs are at least 0.05.
+
+\begin{figure*}[h]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_validity_gates.pdf}
+  \Description{Two-panel validity-gate figure. The left panel shows two normalized co-primary effects from the powered Binance order-book test: false-authorization burden exceeds its registered effect threshold, while laundering burden remains below its threshold, so the intersection-union claim fails. The right panel shows valid-mechanism fractions at twenty thousand training clusters for three curricula and four learners.}
+  \caption{\textbf{Validity gates preserve partial and undefined evidence.} Panel (a) divides registered Binance effects by their SESOIs; error bars are 95\% cluster-bootstrap intervals and the dashed line is the arm criterion. Planning power uses frozen v0.2 variance. Only one arm passes. Panel (b) reports the fraction of six mechanisms with coverage LCB at least 0.05 at 20,000 clusters; no cell reaches one.}
+  \label{fig:validity_gates}
+\end{figure*}
+
+\begin{table}[t]
+  \caption{Mechanism coverage invalidates most training endpoints (validation only). D0 is outside the data-utility Holm family; the role-neutral control is a negative control.}
+  \label{tab:training_validity_supp}
+  \centering
+  \benchmarktableformat
+  \input{generated/table_training_validity}
+\end{table}
+
+\begin{table}[t]
+  \caption{Holm-adjusted D2--D7 versus D1 validation contrasts. Delta FAR is \textit{N/A} because no candidate/reference pair has valid endpoints in the same seed.}
+  \label{tab:training_holm}
+  \centering
+  \benchmarktableformat
+  \input{generated/table_training_holm}
+\end{table}
+
+The D7 role-neutral control masks role and lineage fields during training, calibration, and evaluation. It has 0/5 valid endpoints. Feature-group masking also shows that the fixed learner depends materially on role features: masking them raises D7 validation-unseen FAR to 0.167 and ALR to 0.165. These are shortcut diagnostics, not causal feature attributions.
+
+The prospective v0.3 robustness study uses Logistic Regression, histogram gradient boosting, MLP, and selective Logistic; budgets of 400, 1,000, 5,000, and 20,000 independent clusters; controlled-seen, multi-generator, and full-audit-seen curricula; and three frozen seeds. At 20,000 clusters, full-audit Logistic and selective Logistic reach mean valid-mechanism fraction 0.833, but neither has all six mechanisms valid in any seed. Sequential-market validation remains below the fixed 0.05 coverage floor, so complete primary FAR remains \textit{N/A}. This distinguishes partial endpoint recovery from a valid cross-mechanism comparison.
+
+\section{Paper-Test Stability and Generator Sensitivity}
+The paper split reproduces validation rankings, while the prospective mechanisms test whether that stability extends beyond one generator family.
+
+\begin{table}[t]
+  \caption{Validation-to-paper and cross-generator rank stability. Constant certification ranks remain \textit{N/A} and are not shown.}
+  \label{tab:scale_stability}
+  \centering
+  \benchmarktableformat
+  \input{generated/table_scale_stability}
+\end{table}
+
+Sequential and institutional generators have raw FAR-rank Spearman 0.994; their correlations with utility IID are 0.683 and 0.738. Lowest-FAR and highest-certification rules differ in two of three families. The controlled generators cannot establish a universal financial relationship; they supply interpretable, mechanistically distinct scenarios for auditing rule-by-generator interactions.
+
+\section{Review Workload and Baseline Governance}
+Review routing is not a free abstention channel. On validation, Lifecycle Checklist sends 43.5\% of controlled rows to review and exceeds a 40\% review-capacity scenario by 1,383 rows. Of those reviewed cases, 79.7\% would be harmful under direct execution, but only 1.9\% contain a safe positive opportunity. The paper-test review rate is 42.9\%. These are simulated workloads and normalized cost sensitivities, not measured staffing time or reviewer accuracy.
+
+The baseline-governance audit reproduces the registered Lifecycle rule exactly, then evaluates frozen component removals and independently motivated compositions. Role + Confidence + Cost Gate and Lifecycle without the reduce route both achieve validation certification volume 0.60, above the registered Lifecycle value 0.30. Continuous conservative hypervolume instead ranks Hard Role Gate above Lifecycle. These results reject a Lifecycle-only winner narrative and support frontier reporting.
+
+\section{Baseline Field Access}
+Deployable rules may use candidate action, confidence, uncertainty, expected edge, cost and liquidity proxies, horizon, current source role, and legal lineage fields declared for their task. They may not use realized returns, post-cost utility, harm labels, oracle opportunity, laundering truth, tail loss, future decoys, or test outcomes. Oracle-positive opportunity and attack labels are evaluation-only. Public rationales, profiles, and user identities are not execution evidence.
+
+The equal-information EPV Adapter uses the same legal fields as other baselines. It is included to test whether low FAR transfers to provenance safety, not to establish or refute the companion method paper. The overlap audit snapshots the current AAAI source and checks seeds, exact data hashes, exact/perceptual figure hashes, headline claims, and shared 8/12-grams. The current audit reports zero conflicts across those gates; a fresh snapshot is required before submission.
+
+\section{Negative Results and Change Policy}
+FinAuth-Audit keeps development failures as audit evidence. The first controlled generator allowed non-opportunity noise to create unintended positive opportunities; a rule-independent correction repaired the density control. The first training endpoint averaged mechanisms before checking per-mechanism coverage and produced a misleading low-FAR result; the registered endpoint now requires every mechanism to pass its coverage floor. Strict verification later found a cross-layer holdout leak in D4/D5/D7, after which both controlled and provenance holdout families were applied and the affected corpora rebuilt. No test outcome was opened during these changes.
+
+After validation development, the existing test clusters were partitioned using event IDs only. A validation rehearsal reproduced registered outputs, the scientific surface was frozen in a content-addressed archive, and the paper-test evaluator was executed once. After inspection, generator distributions, attack definitions, seeds, feature manifests, certification thresholds, primary endpoints, and robustness profiles cannot change to obtain a preferred ranking. A correction requires a reproducible defect and a versioned record that preserves the original result. The 5,000-cluster community-hidden set remains unevaluated.
+
+\section{Ethics and Responsible Use}
+Controlled rows are synthetic authorization scenarios and can encode modeling assumptions or omit institutional constraints. Public rows contain event-market observations, not recommendations. The artifact must not be used to justify live trading, automated approval, or removal of human oversight. Users should report source provenance, decision-time legality, coverage, review load, and structural \textit{N/A}; publishing FAR alone is insufficient. Any institutional extension should add expert review, privacy controls, jurisdiction-specific policy, and post-launch monitoring before operational use.
+
+\FloatBarrier

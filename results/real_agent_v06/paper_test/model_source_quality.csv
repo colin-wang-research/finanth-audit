@@ -1,0 +1,7 @@
+model_id,task_id,rows,clusters,raw_schema_validity,malformed_placeholder_rate,repairs_applied,proposal_abstain_rate,mean_confidence,mean_uncertainty,review_recommended_rate,role_ineligible_rate,high_confidence_nonabstain_count,material_harm_high_confidence_count,material_harm_overconfidence_rate
+claude-sonnet-4-6,directional_execution,200,200,1.0,0.0,0,0.46,0.5905499999999999,0.4648,0.27,0.0,7,2,0.2857142857142857
+gpt-5.4-mini,directional_execution,200,200,0.995,0.005,0,0.215,0.68155,0.38420000000000004,0.305,0.0,62,17,0.27419354838709675
+gpt-5.5,directional_execution,200,200,1.0,0.0,0,0.4,0.65155,0.3991,0.265,0.0,33,8,0.24242424242424243
+claude-sonnet-4-6,risk_limit_increase,200,200,1.0,0.0,0,0.815,0.6541499999999999,0.385,0.205,0.52,3,0,0.0
+gpt-5.4-mini,risk_limit_increase,200,200,0.995,0.005,0,0.55,0.6841999999999999,0.3753,0.325,0.52,15,1,0.06666666666666667
+gpt-5.5,risk_limit_increase,200,200,1.0,0.0,0,0.82,0.6785,0.37129999999999996,0.575,0.52,4,0,0.0

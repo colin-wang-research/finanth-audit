@@ -1,0 +1,399 @@
+{
+  "community_hidden_outcomes_evaluated": false,
+  "date_cluster_bootstrap": {
+    "clusters": 200,
+    "probability_below_zero": 0.173,
+    "reason": null,
+    "replicates": 10000,
+    "spearman_lcb95": -0.6571428571428573,
+    "spearman_median": 0.5428571428571429,
+    "spearman_ucb95": 0.942857142857143,
+    "valid": true,
+    "valid_replicate_fraction": 1.0,
+    "valid_replicates": 10000
+  },
+  "exact_permutation": {
+    "alternative": "inverse_or_more_extreme",
+    "exact_p_value": 0.9319444444444445,
+    "n_rules": 6,
+    "observed_spearman_rho": 0.6571428571428573,
+    "permutations": 720,
+    "reason": null,
+    "valid": true,
+    "valid_permutations": 720
+  },
+  "leave_one_rule_out": [
+    {
+      "exact_permutation_p": 0.775,
+      "kendall_tau_b": 0.39999999999999997,
+      "n_rules": 5,
+      "omitted_rule": "Direct Prior",
+      "reason": null,
+      "spearman_rho": 0.39999999999999997,
+      "valid": true
+    },
+    {
+      "exact_permutation_p": 0.9333333333333333,
+      "kendall_tau_b": 0.6,
+      "n_rules": 5,
+      "omitted_rule": "Confidence Gate",
+      "reason": null,
+      "spearman_rho": 0.7,
+      "valid": true
+    },
+    {
+      "exact_permutation_p": 0.9333333333333333,
+      "kendall_tau_b": 0.6,
+      "n_rules": 5,
+      "omitted_rule": "Uncertainty Gate",
+      "reason": null,
+      "spearman_rho": 0.7,
+      "valid": true
+    },
+    {
+      "exact_permutation_p": 0.775,
+      "kendall_tau_b": 0.39999999999999997,
+      "n_rules": 5,
+      "omitted_rule": "Risk Filter",
+      "reason": null,
+      "spearman_rho": 0.39999999999999997,
+      "valid": true
+    },
+    {
+      "exact_permutation_p": 0.9333333333333333,
+      "kendall_tau_b": 0.6,
+      "n_rules": 5,
+      "omitted_rule": "Cost-Aware Gate",
+      "reason": null,
+      "spearman_rho": 0.7,
+      "valid": true
+    },
+    {
+      "exact_permutation_p": 1.0,
+      "kendall_tau_b": 0.9999999999999999,
+      "n_rules": 5,
+      "omitted_rule": "Lifecycle Checklist",
+      "reason": null,
+      "spearman_rho": 0.9999999999999999,
+      "valid": true
+    }
+  ],
+  "metric": "economic_loss_authorization_rate",
+  "pairwise_reversal": [
+    {
+      "controlled_delta": 0.5571011071720625,
+      "observed_delta": 0.0366437484084543,
+      "reason": null,
+      "reversal": false,
+      "rule_a": "Direct Prior",
+      "rule_b": "Confidence Gate",
+      "valid": true
+    },
+    {
+      "controlled_delta": 0.5466958633174457,
+      "observed_delta": 0.035611756664388206,
+      "reason": null,
+      "reversal": false,
+      "rule_a": "Direct Prior",
+      "rule_b": "Uncertainty Gate",
+      "valid": true
+    },
+    {
+      "controlled_delta": 0.04605166700131791,
+      "observed_delta": 0.00303030303030305,
+      "reason": null,
+      "reversal": false,
+      "rule_a": "Direct Prior",
+      "rule_b": "Risk Filter",
+      "valid": true
+    },
+    {
+      "controlled_delta": 0.5920973449394392,
+      "observed_delta": 0.045887445887445866,
+      "reason": null,
+      "reversal": false,
+      "rule_a": "Direct Prior",
+      "rule_b": "Cost-Aware Gate",
+      "valid": true
+    },
+    {
+      "controlled_delta": 0.5087587253333697,
+      "observed_delta": 0.05228511946069203,
+      "reason": null,
+      "reversal": false,
+      "rule_a": "Direct Prior",
+      "rule_b": "Lifecycle Checklist",
+      "valid": true
+    },
+    {
+      "controlled_delta": -0.0104052438546169,
+      "observed_delta": -0.0010319917440660964,
+      "reason": null,
+      "reversal": false,
+      "rule_a": "Confidence Gate",
+      "rule_b": "Uncertainty Gate",
+      "valid": true
+    },
+    {
+      "controlled_delta": -0.5110494401707446,
+      "observed_delta": -0.03361344537815125,
+      "reason": null,
+      "reversal": false,
+      "rule_a": "Confidence Gate",
+      "rule_b": "Risk Filter",
+      "valid": true
+    },
+    {
+      "controlled_delta": 0.0349962377673767,
+      "observed_delta": 0.009243697478991564,
+      "reason": null,
+      "reversal": false,
+      "rule_a": "Confidence Gate",
+      "rule_b": "Cost-Aware Gate",
+      "valid": true
+    },
+    {
+      "controlled_delta": -0.048342381838692786,
+      "observed_delta": 0.01564137105223773,
+      "reason": null,
+      "reversal": true,
+      "rule_a": "Confidence Gate",
+      "rule_b": "Lifecycle Checklist",
+      "valid": true
+    },
+    {
+      "controlled_delta": -0.5006441963161278,
+      "observed_delta": -0.032581453634085156,
+      "reason": null,
+      "reversal": false,
+      "rule_a": "Uncertainty Gate",
+      "rule_b": "Risk Filter",
+      "valid": true
+    },
+    {
+      "controlled_delta": 0.0454014816219936,
+      "observed_delta": 0.01027568922305766,
+      "reason": null,
+      "reversal": false,
+      "rule_a": "Uncertainty Gate",
+      "rule_b": "Cost-Aware Gate",
+      "valid": true
+    },
+    {
+      "controlled_delta": -0.037937137984075886,
+      "observed_delta": 0.016673362796303826,
+      "reason": null,
+      "reversal": true,
+      "rule_a": "Uncertainty Gate",
+      "rule_b": "Lifecycle Checklist",
+      "valid": true
+    },
+    {
+      "controlled_delta": 0.5460456779381213,
+      "observed_delta": 0.042857142857142816,
+      "reason": null,
+      "reversal": false,
+      "rule_a": "Risk Filter",
+      "rule_b": "Cost-Aware Gate",
+      "valid": true
+    },
+    {
+      "controlled_delta": 0.46270705833205183,
+      "observed_delta": 0.04925481643038898,
+      "reason": null,
+      "reversal": false,
+      "rule_a": "Risk Filter",
+      "rule_b": "Lifecycle Checklist",
+      "valid": true
+    },
+    {
+      "controlled_delta": -0.08333861960606949,
+      "observed_delta": 0.006397673573246165,
+      "reason": null,
+      "reversal": true,
+      "rule_a": "Cost-Aware Gate",
+      "rule_b": "Lifecycle Checklist",
+      "valid": true
+    }
+  ],
+  "per_asset": [
+    {
+      "bootstrap_spearman_lcb95": -0.8116794499134279,
+      "bootstrap_spearman_median": 0.48571428571428577,
+      "bootstrap_spearman_ucb95": 0.9276336570439175,
+      "clusters": 40,
+      "exact_permutation_p": 0.9777777777777777,
+      "kendall_tau_b": 0.6900655593423543,
+      "n_rules": 6,
+      "probability_below_zero": 0.36387277455491096,
+      "reason": null,
+      "spearman_rho": 0.8116794499134279,
+      "symbol": "BNBUSDT",
+      "valid": true,
+      "valid_replicate_fraction": 0.9998
+    },
+    {
+      "bootstrap_spearman_lcb95": -0.8116794499134279,
+      "bootstrap_spearman_median": -0.057977103565244846,
+      "bootstrap_spearman_ucb95": 0.753702346348183,
+      "clusters": 42,
+      "exact_permutation_p": 0.41944444444444445,
+      "kendall_tau_b": -0.13801311186847082,
+      "n_rules": 6,
+      "probability_below_zero": 0.5581,
+      "reason": null,
+      "spearman_rho": -0.11595420713048969,
+      "symbol": "BTCUSDT",
+      "valid": true,
+      "valid_replicate_fraction": 1.0
+    },
+    {
+      "bootstrap_spearman_lcb95": -0.8285714285714287,
+      "bootstrap_spearman_median": -0.11595420713048969,
+      "bootstrap_spearman_ucb95": 0.5797710356524484,
+      "clusters": 42,
+      "exact_permutation_p": 0.4013888888888889,
+      "kendall_tau_b": -0.2,
+      "n_rules": 6,
+      "probability_below_zero": 0.5754575457545754,
+      "reason": null,
+      "spearman_rho": -0.14285714285714288,
+      "symbol": "ETHUSDT",
+      "valid": true,
+      "valid_replicate_fraction": 0.9999
+    },
+    {
+      "bootstrap_spearman_lcb95": -0.5428571428571429,
+      "bootstrap_spearman_median": 0.5217939320872036,
+      "bootstrap_spearman_ucb95": 0.942857142857143,
+      "clusters": 36,
+      "exact_permutation_p": 0.8791666666666667,
+      "kendall_tau_b": 0.4666666666666666,
+      "n_rules": 6,
+      "probability_below_zero": 0.1425,
+      "reason": null,
+      "spearman_rho": 0.5428571428571429,
+      "symbol": "SOLUSDT",
+      "valid": true,
+      "valid_replicate_fraction": 1.0
+    },
+    {
+      "bootstrap_spearman_lcb95": -0.4285714285714286,
+      "bootstrap_spearman_median": 0.5507824838698261,
+      "bootstrap_spearman_ucb95": 0.7714285714285715,
+      "clusters": 40,
+      "exact_permutation_p": 0.8513888888888889,
+      "kendall_tau_b": 0.3333333333333333,
+      "n_rules": 6,
+      "probability_below_zero": 0.1114,
+      "reason": null,
+      "spearman_rho": 0.48571428571428577,
+      "symbol": "XRPUSDT",
+      "valid": true,
+      "valid_replicate_fraction": 1.0
+    }
+  ],
+  "per_model": [
+    {
+      "bootstrap_spearman_lcb95": -0.7714285714285715,
+      "bootstrap_spearman_median": -0.028571428571428574,
+      "bootstrap_spearman_ucb95": 0.6377481392176932,
+      "clusters": 200,
+      "exact_permutation_p": 0.5,
+      "kendall_tau_b": 0.06666666666666665,
+      "model_id": "claude-sonnet-4-6",
+      "n_rules": 6,
+      "probability_below_zero": 0.5096124811273276,
+      "reason": null,
+      "spearman_rho": -0.028571428571428574,
+      "valid": true,
+      "valid_replicate_fraction": 0.9935
+    },
+    {
+      "bootstrap_spearman_lcb95": -0.7714285714285715,
+      "bootstrap_spearman_median": -0.028571428571428574,
+      "bootstrap_spearman_ucb95": 0.753702346348183,
+      "clusters": 200,
+      "exact_permutation_p": 0.6430555555555556,
+      "kendall_tau_b": 0.3333333333333333,
+      "model_id": "gpt-5.4-mini",
+      "n_rules": 6,
+      "probability_below_zero": 0.5644,
+      "reason": null,
+      "spearman_rho": 0.14285714285714288,
+      "valid": true,
+      "valid_replicate_fraction": 1.0
+    },
+    {
+      "bootstrap_spearman_lcb95": -0.08571428571428573,
+      "bootstrap_spearman_median": 0.6957252427829382,
+      "bootstrap_spearman_ucb95": 0.8285714285714287,
+      "clusters": 200,
+      "exact_permutation_p": 0.9486111111111111,
+      "kendall_tau_b": 0.6,
+      "model_id": "gpt-5.5",
+      "n_rules": 6,
+      "probability_below_zero": 0.0316,
+      "reason": null,
+      "spearman_rho": 0.7142857142857143,
+      "valid": true,
+      "valid_replicate_fraction": 1.0
+    }
+  ],
+  "per_volatility_regime": [
+    {
+      "bootstrap_spearman_lcb95": -0.8285714285714287,
+      "bootstrap_spearman_median": 0.08571428571428573,
+      "bootstrap_spearman_ucb95": 0.8285714285714287,
+      "clusters": 100,
+      "exact_permutation_p": 0.8222222222222222,
+      "kendall_tau_b": 0.4666666666666666,
+      "n_rules": 6,
+      "probability_below_zero": 0.4466,
+      "reason": null,
+      "spearman_rho": 0.4285714285714286,
+      "valid": true,
+      "valid_replicate_fraction": 1.0,
+      "volatility_regime": "high"
+    },
+    {
+      "bootstrap_spearman_lcb95": -0.753702346348183,
+      "bootstrap_spearman_median": 0.44136741475237473,
+      "bootstrap_spearman_ucb95": 0.9276336570439175,
+      "clusters": 100,
+      "exact_permutation_p": 0.9777777777777777,
+      "kendall_tau_b": 0.6900655593423543,
+      "n_rules": 6,
+      "probability_below_zero": 0.2557,
+      "reason": null,
+      "spearman_rho": 0.8116794499134279,
+      "valid": true,
+      "valid_replicate_fraction": 1.0,
+      "volatility_regime": "low"
+    }
+  ],
+  "point": {
+    "kendall_tau_b": 0.6,
+    "n_rules": 6,
+    "reason": null,
+    "rules": [
+      "Direct Prior",
+      "Confidence Gate",
+      "Uncertainty Gate",
+      "Risk Filter",
+      "Cost-Aware Gate",
+      "Lifecycle Checklist"
+    ],
+    "spearman_rho": 0.6571428571428573,
+    "valid": true
+  },
+  "primary_support": false,
+  "rules": [
+    "Direct Prior",
+    "Confidence Gate",
+    "Uncertainty Gate",
+    "Risk Filter",
+    "Cost-Aware Gate",
+    "Lifecycle Checklist"
+  ]
+}

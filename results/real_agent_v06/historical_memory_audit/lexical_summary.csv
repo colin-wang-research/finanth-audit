@@ -1,0 +1,7 @@
+scope,proposals,independent_dates,explicit_retrospective_signal_count,explicit_retrospective_signal_rate,unsupported_external_source_signal_count,unsupported_external_source_signal_rate
+overall,1500,250,0,0.0,0,0.0
+model=claude-sonnet-4-6,500,250,0,0.0,0,0.0
+model=gpt-5.4-mini,500,250,0,0.0,0,0.0
+model=gpt-5.5,500,250,0,0.0,0,0.0
+task=directional_execution,750,250,0,0.0,0,0.0
+task=risk_limit_increase,750,250,0,0.0,0,0.0

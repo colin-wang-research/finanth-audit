@@ -1,0 +1,42 @@
+{
+  "comparison": "Cost-Aware Gate minus Lifecycle Checklist",
+  "false_authorization_burden": {
+    "ci95_lower": -0.01981060606060606,
+    "ci95_upper": -0.013833333333333333,
+    "clusters": 500,
+    "mean": -0.017007575757575756,
+    "passed": true,
+    "replicates": 10000,
+    "sesoi": -0.015,
+    "standard_deviation": 0.03420204064703403
+  },
+  "intersection_union_passed": false,
+  "laundering_burden": {
+    "ci95_lower": 0.013977272727272727,
+    "ci95_upper": 0.01681060606060606,
+    "clusters": 500,
+    "mean": 0.01537121212121212,
+    "passed": false,
+    "replicates": 10000,
+    "sesoi": 0.02,
+    "standard_deviation": 0.016362564811218516
+  },
+  "moving_block_7day_sensitivity": {
+    "false_authorization_burden": {
+      "ci95_lower": -0.02088655303030303,
+      "ci95_upper": -0.01253030303030303,
+      "clusters": 500,
+      "mean": -0.017007575757575756,
+      "replicates": 10000,
+      "standard_deviation": 0.03420204064703403
+    },
+    "laundering_burden": {
+      "ci95_lower": 0.01306060606060606,
+      "ci95_upper": 0.017863636363636363,
+      "clusters": 500,
+      "mean": 0.01537121212121212,
+      "replicates": 10000,
+      "standard_deviation": 0.016362564811218516
+    }
+  }
+}

@@ -1,0 +1,54 @@
+title: "FinAuth-Audit: Validity-Aware Benchmarking of Financial Agent Authorization"
+track: "KDD 2027 Datasets and Benchmarks"
+cycle: 1
+authors:
+  - name: "Ke Wang"
+    order: 1
+    first_author: true
+    corresponding_author: true
+    affiliation: "Georgia Institute of Technology"
+    email: "colinwang@gatech.edu"
+  - name: "Xiaorui Tang"
+    order: 2
+    affiliation: "Chanjin (Guangzhou) Technology Development Co., Ltd."
+    email: "alicetang0618@gmail.com"
+keywords:
+  - "financial agents"
+  - "execution authorization"
+  - "benchmark validity"
+  - "provenance auditing"
+  - "selective decision-making"
+  - "abstention"
+  - "agent safety"
+tl_dr: >-
+  FinAuth-Audit is a validity-aware benchmark showing that low false
+  authorization rates can conceal coverage collapse, authority laundering,
+  invalid transfer, and insufficient evidence in financial-agent execution
+  rules.
+abstract: >-
+  Financial agents increasingly turn weak financial priors into actions, yet a
+  low false authorization rate (FAR) can hide coverage collapse,
+  source-authority laundering, or insufficient evidence. We introduce
+  FinAuth-Audit, a benchmark and release protocol for testing whether
+  comparisons among execution rules remain valid under coverage, provenance,
+  consequence severity, review workload, utility, and point-in-time
+  constraints. We benchmark execution rules, not predictors. The artifact
+  combines 124,000 controlled, provenance, and mechanistic event clusters;
+  2,500 event-market clusters; 936 external market dates or sessions; and a
+  prospective 300-date actual-model partition. On a one-time controlled paper
+  test, the lowest-FAR rule (0.064) retains authority-laundering rate (ALR)
+  0.245, while lineage-clean alternatives move along coverage, utility, and
+  review frontiers. A clean current role still retains 0.172 indirect
+  laundering, consistent with a finite-sample Bayes-risk limit under partial
+  lineage observability. A separately preregistered test evaluates 1,200 cached
+  proposals on 200 dates. It does not reproduce a 60-date pilot inversion:
+  controlled-to-actual directional economic-loss ranks have Spearman rho 0.657
+  and exact one-sided p-value 0.932, so the inverse hypothesis is not
+  supported. Economic loss, material harm, and authority violation also
+  produce different operating-point conclusions, while development-only
+  recalibration can restore coverage and increase authority violations. A
+  powered 500-date Binance test passes only one of two co-primary arms, so its
+  intersection-union claim fails and is retained. FinAuth-Audit is not a model
+  leaderboard, trading-profit benchmark, investment-advice system, or
+  deployment claim.
+artifact_url: "https://github.com/colin-wang-research/finanth-audit"

@@ -1,0 +1,51 @@
+{
+  "checks": [
+    {
+      "check": "aggregate-only internal verification",
+      "detail": "771/771 checks passed",
+      "passed": true
+    },
+    {
+      "check": "frozen evaluation surface integrity",
+      "detail": "registered_hashes=727",
+      "passed": true
+    },
+    {
+      "check": "exactly-once paper-test registry",
+      "detail": "status=COMPLETED clusters=200 proposal_rows=1200",
+      "passed": true
+    },
+    {
+      "check": "community-hidden split remains sealed",
+      "detail": "outcomes_evaluated=false proposals_decrypted=false",
+      "passed": true
+    },
+    {
+      "check": "registered paper-test aggregate hashes",
+      "detail": "aggregate_files=8",
+      "passed": true
+    },
+    {
+      "check": "preregistered rank-transfer inference semantics",
+      "detail": "primary_support=false",
+      "passed": true
+    },
+    {
+      "check": "invalid recalibration remains structural N/A",
+      "detail": "Lifecycle Checklist did not meet the frozen development coverage floor",
+      "passed": true
+    },
+    {
+      "check": "hidden proposal plaintext and key exclusion",
+      "detail": "repository scan passed",
+      "passed": true
+    }
+  ],
+  "internal_passed": 771,
+  "internal_total": 771,
+  "passed": 8,
+  "phase": "real-agent-v06",
+  "schema_version": "0.6",
+  "success": true,
+  "total": 8
+}

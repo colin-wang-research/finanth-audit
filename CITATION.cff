@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use FinAuth-Audit, please cite the accompanying paper and this artifact."
+title: "FinAuth-Audit: Validity-Aware Benchmarking of Financial Agent Authorization"
+type: software
+version: 0.6.0
+date-released: 2026-07-19
+repository-code: "https://github.com/colin-wang-research/finanth-audit"
+url: "https://github.com/colin-wang-research/finanth-audit"
+license: Apache-2.0
+authors:
+  - family-names: Wang
+    given-names: Ke
+    email: colinwang@gatech.edu
+    affiliation: Georgia Institute of Technology
+  - family-names: Tang
+    given-names: Xiaorui
+    email: alicetang0618@gmail.com
+    affiliation: Chanjin (Guangzhou) Technology Development Co., Ltd.
+keywords:
+  - financial agents
+  - execution authorization
+  - benchmark validity
+  - provenance auditing
+  - selective decision-making
+  - abstention
+  - agent safety

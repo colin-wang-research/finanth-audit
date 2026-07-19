@@ -1,0 +1,81 @@
+\documentclass[sigconf,review]{acmart}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{placeins}
+
+% Give narrow ACM columns enough flexibility to avoid isolated short overfull
+% lines without shrinking the document font or scaling tables.
+\setlength{\emergencystretch}{2em}
+
+\newcommand{\benchmarktableformat}{%
+  \small
+  \setlength{\tabcolsep}{4.5pt}%
+  \renewcommand{\arraystretch}{1.08}%
+}
+
+\setcopyright{none}
+\settopmatter{printacmref=true, printccs=true, printfolios=true, authorsperrow=2}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+\pagestyle{plain}
+
+\acmConference[KDD '27]{The 33rd ACM SIGKDD Conference on Knowledge Discovery and Data Mining}{August 1--5, 2027}{San Jose, CA, USA}
+\acmYear{2027}
+\copyrightyear{2027}
+
+\title{FinAuth-Audit: Validity-Aware Benchmarking of Financial Agent Authorization}
+\input{author_metadata}
+\input{generated/claims_real_agent_v06}
+
+\begin{abstract}
+Financial agents increasingly turn weak financial priors into actions, yet a low false authorization rate (FAR) can hide coverage collapse, source-authority laundering, or insufficient evidence. We introduce FinAuth-Audit, a benchmark and release protocol for testing whether comparisons among execution rules remain valid under coverage, provenance, consequence severity, review workload, utility, and point-in-time constraints. We benchmark execution rules, not predictors. The artifact combines 124,000 controlled, provenance, and mechanistic event clusters; 2,500 event-market clusters; 936 external market dates or sessions; and a prospective 300-date actual-model partition. On a one-time controlled paper test, the lowest-FAR rule (0.064) retains authority-laundering rate (ALR) 0.245, while lineage-clean alternatives move along coverage, utility, and review frontiers. A clean current role still retains 0.172 indirect laundering, consistent with a finite-sample Bayes-risk limit under partial lineage observability. A separately preregistered test evaluates \RealAgentProposalRows{} cached proposals on \RealAgentRankIndependentUnitCount{} dates. It does not reproduce a 60-date pilot inversion: controlled-to-actual directional economic-loss ranks have Spearman $\rho=\RealAgentRankSpearman$ and exact one-sided $p=\RealAgentRankExactP$, so the inverse hypothesis is \RealAgentRankSupportStatus. Economic loss, material harm, and authority violation also produce different operating-point conclusions, while development-only recalibration can restore coverage and increase authority violations. A powered 500-date Binance test passes only one of two co-primary arms, so its intersection-union claim fails and is retained. FinAuth-Audit is not a model leaderboard, trading-profit benchmark, investment-advice system, or deployment claim.
+\end{abstract}
+
+\keywords{financial agents, execution authorization, benchmark validity, provenance auditing, abstention, agent safety}
+
+\begin{CCSXML}
+<ccs2012>
+<concept>
+<concept_id>10010147.10010257</concept_id>
+<concept_desc>Computing methodologies~Machine learning</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+<concept>
+<concept_id>10010405.10010489</concept_id>
+<concept_desc>Applied computing~Economics</concept_desc>
+<concept_significance>300</concept_significance>
+</concept>
+</ccs2012>
+\end{CCSXML}
+\ccsdesc[500]{Computing methodologies~Machine learning}
+\ccsdesc[300]{Applied computing~Economics}
+
+\begin{document}
+\maketitle
+\balance
+
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_task_model}
+\input{sections/04_construction}
+\input{sections/05_protocol}
+\input{sections/06_results}
+\input{sections/07_discussion}
+\input{sections/08_conclusion}
+
+\FloatBarrier
+\clearpage
+\nobalance
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\clearpage
+\appendix
+\raggedbottom
+\input{supplement}
+
+\end{document}

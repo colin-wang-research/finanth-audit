@@ -1,0 +1,140 @@
+{
+  "annotation_policy": "adjustText_with_leader_lines_and_marker_boundary_avoidance",
+  "figures": [
+    {
+      "claim": "The benchmark separates certification, provenance, source and mechanism transfer, and pre-result validity gates; F3 reports the preregistered rank-support state as False.",
+      "hashes": {
+        "pdf": "bf8ed35a0e360051fbb626aa1b0437dd971f5cdcecc6febcd20997a54fc3eb56",
+        "png": "6beef440843f3c2791e70f04ae2ccb6f14005f9b35dde3187255d58fe3a91654",
+        "svg": "93fae5a7ffe3349b7c00a5e066b72a798986a7e1ac6b68671ad0e6735925c54b"
+      },
+      "name": "fig_benchmark_overview",
+      "rank_transfer_independent_dates": 200,
+      "rank_transfer_primary_support": false,
+      "size_inches": [
+        6.95,
+        3.05
+      ],
+      "text_qa": {
+        "all_text_overlap_count": 0,
+        "legend_axes_overlap_count": 0,
+        "minimum_font_points": 8.0,
+        "qa_label_boundary_violation_count": 0,
+        "qa_label_count": 0,
+        "qa_label_overlap_count": 0,
+        "qa_label_point_overlap_count": 0,
+        "visible_text_count": 21
+      }
+    },
+    {
+      "claim": "Raw FAR, coverage, lineage integrity, and conservative hypervolume produce different rule orderings.",
+      "hashes": {
+        "pdf": "e309d81c533a33d0a2c8c69157f4e2c9c3dd50bb88fbb850fc13fc2b5b5d0927",
+        "png": "bb6ccbb5e602594060cb37a88e58055fa32a1cfdfefb05e89181fce194c081ed",
+        "svg": "a2ae313031d6a12dca4648ff259e74c604430990198b076bb9b00eeb750ef611"
+      },
+      "name": "fig_certification_surface",
+      "size_inches": [
+        6.95,
+        3.45
+      ],
+      "text_qa": {
+        "all_text_overlap_count": 0,
+        "legend_axes_overlap_count": 0,
+        "minimum_font_points": 8.0,
+        "qa_label_boundary_violation_count": 0,
+        "qa_label_count": 7,
+        "qa_label_overlap_count": 0,
+        "qa_label_point_overlap_count": 0,
+        "visible_text_count": 56
+      }
+    },
+    {
+      "claim": "Clean current roles do not prevent indirect laundering, while hard provenance gating trades integrity for coverage.",
+      "hashes": {
+        "pdf": "593b0b0589d815e921b1d7653530cb17ce7cb4c98a7e90b3afdff631fa3f8f4b",
+        "png": "90e103880e8db935f9082f2e2cef485507c4bbb721c4f243809693fbdbdd6a4a",
+        "svg": "10f2ccb0d3aeccef1c982fd5f4989725a6b97ce712eb703862f996bf2de5eba0"
+      },
+      "name": "fig_provenance_laundering",
+      "size_inches": [
+        6.95,
+        3.75
+      ],
+      "text_qa": {
+        "all_text_overlap_count": 0,
+        "legend_axes_overlap_count": 0,
+        "minimum_font_points": 8.0,
+        "qa_label_boundary_violation_count": 0,
+        "qa_label_count": 7,
+        "qa_label_overlap_count": 0,
+        "qa_label_point_overlap_count": 0,
+        "visible_text_count": 40
+      }
+    },
+    {
+      "claim": "The 200-date actual-model test separates economic loss from material and authority harm, does not support inverse rank transfer, and shows that development-only recalibration can trade coverage for authority violations.",
+      "hashes": {
+        "pdf": "1aff4139e9b920f7093866d310c16a6d411972a1e4549d473fc61b1448133347",
+        "png": "cf36a97f5e7b609f9ab7fa44f1c3fccd8d2fcad79ca83eb4c73b9684a09b549e",
+        "svg": "1f9b1a1992e234e6486ff800e8432c379f55b8520f8f84e0e4b25f8d636c4472"
+      },
+      "name": "fig_actual_model_validity",
+      "rank_transfer_independent_dates": 200,
+      "rank_transfer_primary_support": false,
+      "size_inches": [
+        6.95,
+        3.35
+      ],
+      "text_qa": {
+        "all_text_overlap_count": 0,
+        "legend_axes_overlap_count": 0,
+        "minimum_font_points": 8.0,
+        "qa_label_boundary_violation_count": 0,
+        "qa_label_count": 0,
+        "qa_label_overlap_count": 0,
+        "qa_label_point_overlap_count": 0,
+        "visible_text_count": 52
+      }
+    },
+    {
+      "claim": "A preregistered external test can yield a mixed failure, while mechanism-coverage gates keep incomplete learner comparisons undefined.",
+      "hashes": {
+        "pdf": "9ea37322a1bd82bcfe1b3edf7389d56fa699a1bfaf93a060b5250d27d60590dd",
+        "png": "83d24351f107fe553a8c6a752ccbe2912fecb63c74ec0a933f938cbe330b7344",
+        "svg": "561d59c693a45a77629ca642c6c4ae99d44d952b8568a12b60a9cb38de5e580c"
+      },
+      "name": "fig_validity_gates",
+      "size_inches": [
+        6.95,
+        2.95
+      ],
+      "text_qa": {
+        "all_text_overlap_count": 0,
+        "legend_axes_overlap_count": 0,
+        "minimum_font_points": 8.0,
+        "qa_label_boundary_violation_count": 0,
+        "qa_label_count": 2,
+        "qa_label_overlap_count": 0,
+        "qa_label_point_overlap_count": 0,
+        "visible_text_count": 40
+      }
+    }
+  ],
+  "inputs": {
+    "manifests/real_agent_v06_test_registry.json": "232401e262ec78f02ded509e2cc4b18fd5b4d922eed6a6e002d78963930502dc",
+    "results/external_orderbook_v03/paper_test/binance/primary_endpoints.json": "6c147547ffb9152a2e50183302b7765e5cefde8520f0fbea17cdc0687912fb2f",
+    "results/paper_test/manifest.json": "f8815d9fcb9bb46c77c9dfdfff17052891e75c158e4725b58c1c981b8df93985",
+    "results/real_agent_v06/paper_test/rank_transfer_zero_shot.json": "ef133b5065c071fabf53654ea1ca40a0e58c725df4b2bbbcdda86b26b175c11c",
+    "results/real_agent_v06/paper_test/recalibrated/metrics.csv": "1946d4209c7994e62e51f02e846ba4fb9fe52cef772acd8ace48d195dd119d03",
+    "results/real_agent_v06/paper_test/zero_shot/metrics.csv": "40257fd567fa8dc824645b24ce10ca66dcf949f0d58941aca836707e54f4b4f7",
+    "results/training_robustness_v03/manifest.json": "ea8cb02d073aa91da2bfa2c755cf6a6cc2f194da11dbc5c96c93224bf1616d6f"
+  },
+  "legend_policy": "outside_axes_only",
+  "minimum_font_points": 8.0,
+  "note": "All visible figure text is at least 8 pt before LaTeX placement; generation fails on text overlap, label-to-marker overlap, label boundary violations, or legends entering plotting axes.",
+  "paper_target_minimum_font_points": 8.0,
+  "project": "FinAuth-Audit",
+  "style": "tueplots-neurips2024-okabe-ito",
+  "version": "0.6.0-aggregate-only-actual-agent-integration"
+}

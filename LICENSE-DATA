@@ -1,0 +1,14 @@
+FinAuth-Audit Data License and Third-Party Notice
+
+The author-generated controlled, provenance, and mechanistic benchmark rows
+included in the public release are licensed under Creative Commons Attribution
+4.0 International (CC BY 4.0):
+https://creativecommons.org/licenses/by/4.0/
+
+Third-party source data retain their original terms. The release does not
+redistribute licensed Databento row-level records, hidden challenge outcomes,
+credentials, or raw third-party archives. Public-source manifests, derived
+features, aggregate statistics, and source links are provided only where their
+documented source terms permit redistribution. Users are responsible for
+complying with the original source terms when rebuilding third-party layers.
+

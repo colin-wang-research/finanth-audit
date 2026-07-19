@@ -1,0 +1,38 @@
+{
+  "artifact": "FinAuth-Audit page-faithful HTML",
+  "expected_pages": 20,
+  "missing_local_assets": [],
+  "outputs": {
+    "FinAuth-Audit.html": "db5e9f4375f90bd59cfe001b5a45c44930af4f774c9466e078747f52a788af94",
+    "FinAuth-Audit001.png": "5c5f7b86fb7872bcf247d1282c618666e2be40647f5a740914b663c3b3a00b8e",
+    "FinAuth-Audit002.png": "dedf45797537e37d96005644ccd293ab8a13f995fcd559b322f001fef6b2a43a",
+    "FinAuth-Audit003.png": "706b75343330c00e879d4c49e628c1c9f1d622af62cc048e25539e250ad99cc5",
+    "FinAuth-Audit004.png": "5c5f7b86fb7872bcf247d1282c618666e2be40647f5a740914b663c3b3a00b8e",
+    "FinAuth-Audit005.png": "df8e2db4e2a108315704c21330ec94a0db7f4be3f1cae101e72e827870095be9",
+    "FinAuth-Audit006.png": "aaf1b5170a93b42e51271d2edd96b1d560647939e0cacf79a1735b8ee5cddf6f",
+    "FinAuth-Audit007.png": "05f4441d125b1709d55c4f2388fe424a1996b65980af43e39cf0ce20063ae455",
+    "FinAuth-Audit008.png": "dc1cc34617e60a26cd84cbd3be43045f98e3436c5b4c51c8f509cc47c3840344",
+    "FinAuth-Audit009.png": "5c5f7b86fb7872bcf247d1282c618666e2be40647f5a740914b663c3b3a00b8e",
+    "FinAuth-Audit010.png": "24630caa372755c76ec17e6ff2d5623421a77c8a5601395ab9c30627d1f3cdd0",
+    "FinAuth-Audit011.png": "ed20c53a90e7ae4d1b39b7731f7bf599b35205c2da93da256c06859423fd41ea",
+    "FinAuth-Audit012.png": "c7489f6ce9c9ffbd7965ed1fedc8700cb975fcd83654d218b6d1a300d87ad326",
+    "FinAuth-Audit013.png": "d1e23b81f3599b97d029d6be109af9cd8a751a7c491d44e3d42b4e8b3a194478",
+    "FinAuth-Audit014.png": "a7c0b45fc45779cc44d24301e8b88a2ac5c84dbe45056faa277d1e955eb1c74d",
+    "FinAuth-Audit015.png": "5c5f7b86fb7872bcf247d1282c618666e2be40647f5a740914b663c3b3a00b8e",
+    "FinAuth-Audit016.png": "7e43c18d84979e09444a274a48efc590568f79d29d2133088ec7c300b12c9f80",
+    "FinAuth-Audit017.png": "c39538dd3924317e866f2251a2352d07f06af9cbabc2735bb6f249cf42a8a743",
+    "FinAuth-Audit018.png": "76c62829267da6dad43d7ebb73bc4f325d0f10d7d908e9d1cd5c30e1db26d77d",
+    "FinAuth-Audit019.png": "8c1e492881e59fb5680387da2ed9072cccf473dfdd2caebd9ab70aa16b08feab",
+    "FinAuth-Audit020.png": "5c5f7b86fb7872bcf247d1282c618666e2be40647f5a740914b663c3b3a00b8e"
+  },
+  "page_images": 20,
+  "rendered_pages": 20,
+  "required_markers": {
+    "references": true,
+    "supplement": true,
+    "title": true
+  },
+  "source_pdf_sha256": "a43ac14f8725a38a5862e65cefc1161f70fedd779eef1e060b8d7c21f30a824b",
+  "success": true,
+  "unresolved_reference_tokens": false
+}
