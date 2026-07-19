@@ -19,6 +19,8 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
+      - name: Install build tooling
+        run: python -m pip install --upgrade "pip>=23" "setuptools>=68" wheel
       - name: Install public artifact
         run: python -m pip install ".[test]"
       - name: Compile Python sources
