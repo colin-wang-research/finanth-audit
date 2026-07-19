@@ -70,6 +70,7 @@ def apply_style() -> None:
             "pdf.fonttype": 42,
             "ps.fonttype": 42,
             "svg.fonttype": "none",
+            "svg.hashsalt": "finauth-audit-v0.6.0",
             "axes.spines.top": False,
             "axes.spines.right": False,
         }
@@ -100,6 +101,11 @@ def save_figure(fig: plt.Figure, output_base: Path) -> dict[str, str]:
     ):
         path = output_base.with_suffix(f".{suffix}")
         fig.savefig(path, bbox_inches="tight", pad_inches=0.035, **kwargs)
+        if suffix == "svg":
+            normalized = "\n".join(
+                line.rstrip() for line in path.read_text(encoding="utf-8").splitlines()
+            )
+            path.write_text(normalized + "\n", encoding="utf-8")
         hashes[suffix] = hashlib.sha256(path.read_bytes()).hexdigest()
     return hashes
 

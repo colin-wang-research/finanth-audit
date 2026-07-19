@@ -17,7 +17,21 @@ REPO = ROOT.parent
 CANONICAL_METADATA = PAPER_DIR / "author_metadata.tex"
 CANONICAL_PDF = PAPER_DIR / "FinAuth-Audit.pdf"
 STRICT_REPORT = ROOT / "results" / "verification" / "paper_verification_strict.json"
-DEFAULT_OUTPUT = REPO / "paper" / "kdd" / "FinAuth-Audit-KDD.pdf"
+
+
+def default_output_path() -> Path:
+    workspace_output = REPO / "paper" / "kdd" / "FinAuth-Audit-KDD.pdf"
+    if ROOT.name == "finauth_audit" and workspace_output.parent.is_dir():
+        return workspace_output
+    return ROOT / "dist" / "FinAuth-Audit-KDD.pdf"
+
+
+def submission_paper_target() -> str:
+    registry = ROOT / "manifests" / "real_agent_v06_test_registry.json"
+    return "submission-paper-full" if registry.is_file() else "submission-paper"
+
+
+DEFAULT_OUTPUT = default_output_path()
 
 PLACEHOLDER_TOKENS = (
     "Author Metadata Required",
@@ -198,9 +212,19 @@ def finalize_submission(*, metadata_path: Path, output_pdf: Path) -> dict[str, o
             "supported only by --check-only"
         )
     metadata_summary = validate_author_metadata(metadata_path)
-    _run(["make", "-C", str(PAPER_DIR), "submission-paper"], cwd=ROOT)
+    _run(
+        ["make", "-C", str(PAPER_DIR), submission_paper_target()],
+        cwd=ROOT,
+    )
     _run(["make", "-C", str(PAPER_DIR), "html"], cwd=ROOT)
-    _run([sys.executable, str(PAPER_DIR / "verify_paper.py")], cwd=ROOT)
+    _run(
+        [
+            sys.executable,
+            str(PAPER_DIR / "verify_paper.py"),
+            "--defer-submission-output",
+        ],
+        cwd=ROOT,
+    )
 
     strict_report = json.loads(STRICT_REPORT.read_text(encoding="utf-8"))
     if strict_report.get("success") is not True:
@@ -228,12 +252,18 @@ def finalize_submission(*, metadata_path: Path, output_pdf: Path) -> dict[str, o
         checksum_path,
         f"{manifest['pdf_sha256']}  {output_pdf.name}\n".encode("utf-8"),
     )
+    _run([sys.executable, str(PAPER_DIR / "verify_paper.py")], cwd=ROOT)
+    final_strict_report = json.loads(STRICT_REPORT.read_text(encoding="utf-8"))
+    if final_strict_report.get("success") is not True:
+        raise RuntimeError("final output attestation did not pass strict verification")
     return {
         "manifest": str(manifest_path),
         "output_pdf": str(output_pdf),
         "sha256": manifest["pdf_sha256"],
         "sha256_file": str(checksum_path),
-        "strict_verification": f"{strict_report['passed']}/{strict_report['total']}",
+        "strict_verification": (
+            f"{final_strict_report['passed']}/{final_strict_report['total']}"
+        ),
     }
 
 

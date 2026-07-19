@@ -31,10 +31,10 @@ The figure generator writes PDF, SVG, and PNG from one source and records a mini
 
 \begin{figure*}[h]
   \centering
-  \includegraphics[width=\textwidth]{figures/fig_benchmark_overview.pdf}
-  \Description{Flow diagram from benchmark layers through execution rules and four routing decisions to validity audits, followed by four finding boxes for certification, provenance, source transfer, and evidence gates.}
-  \caption{\textbf{FinAuth-Audit separates benchmark layers, execution rules, routing outcomes, and validity gates.} Controlled rows support certification; provenance rows perturb authority chains; public rows are restricted by decision-time availability; and matched training corpora test mechanism coverage. The v0.6 F3 box is generated from the frozen primary-support flag and records that inverse rank transfer is not supported.}
-  \label{fig:overview}
+  \includegraphics[width=\textwidth]{figures/fig_certification_surface.pdf}
+  \Description{Two-panel validity figure. The left panel plots paper-test rule coverage against negative-utility authorization rate with marker shape indicating authority-laundering strata. The right panel ranks validation worst-profile conservative hypervolume.}
+  \caption{\textbf{NUAR, lineage integrity, coverage, and conservative hypervolume produce different rule orderings.} Panel (a) reports one-time paper-test operating points; marker shape encodes ALR strata. Short labels are DP (Direct Prior), CG (Confidence Gate), UG (Uncertainty Gate), RF (Risk Filter), CAG (Cost-Aware Gate), HRG (Hard Role Gate), and LC (Lifecycle Checklist). Panel (b) is a pre-frozen validation sensitivity, not a second paper-test ranking. Zero authorization produces NUAR and ALR \textit{N/A}, not zero.}
+  \label{fig:certification}
 \end{figure*}
 
 \section{Controlled Certification Details}
@@ -69,7 +69,7 @@ Direct leakage authorizes a currently ineligible source. Indirect leakage author
   \input{generated/table_provenance_traceability}
 \end{table*}
 
-Traceable rows include the attested lineage-role chain needed to detect laundering in principle. Untraceable rows omit that evidence. On the paper test, Provenance Hard Gate has traceable coverage 0.724 and untraceable coverage zero; its untraceable FAR and ALR are undefined rather than zero. The empirical current-role-only Bayes error lower bound rises from 0.129 on traceable rows to 0.256 on untraceable rows, while legal partial signatures reduce the corresponding bounds to 0.061 and 0.083. This is an evidence-availability boundary, not a claim that a detector should infer hidden lineage.
+Traceable rows include the attested lineage-role chain needed to detect laundering in principle. Untraceable rows omit that evidence. On the paper test, Provenance Hard Gate has traceable coverage 0.724 and untraceable coverage zero; its untraceable NUAR and ALR are undefined rather than zero. The empirical current-role-only Bayes error lower bound rises from 0.129 on traceable rows to 0.256 on untraceable rows, while legal partial signatures reduce the corresponding bounds to 0.061 and 0.083. This is an evidence-availability boundary, not a claim that a detector should infer hidden lineage.
 
 \paragraph{Proof of Equation~\eqref{eq:provenance-bayes-risk}.}
 For a fixed observable signature $x$, any deterministic rule $h$ predicts either zero or one. Its error mass at $x$ is therefore either $\Pr(X=x,L=1)$ or $\Pr(X=x,L=0)$, and the smaller achievable mass is their minimum. Summing independently over signatures proves the first equality. A randomized rule takes a convex combination of the same two error masses and cannot improve the minimum. Under equal priors, write $p_\ell(x)=\Pr(X=x\mid L=\ell)$; then
@@ -79,6 +79,16 @@ For a fixed observable signature $x$, any deterministic rule $h$ predicts either
  &=\tfrac12(1-\mathrm{TV}(P_0,P_1)).
 \end{align*}
 The audit uses empirical signature frequencies in place of joint probabilities. Its minority count is the exact minimum empirical error for rules using that signature, not a distribution-free bound for another institution or period.
+
+\paragraph{Derivation of Equation~\eqref{eq:provenance-partial-id}.}
+Write $q(x)=\Pr(L=1\mid X=x)$. For any rule with positive coverage,
+$\mathrm{ALR}(a)=\mathbb{E}[a(X)q(X)]/\mathbb{E}[a(X)]$.
+Multiplying the pointwise bounds $\ell(x)\le q(x)\le u(x)$ by the
+nonnegative weight $a(x)\Pr(X=x)$, summing, and dividing by coverage gives
+Equation~\eqref{eq:provenance-partial-id}. Pointwise-compatible choices of
+$q(x)$ attain both endpoints. If resolved signatures have $u=\ell$ and
+unresolved signatures have $[\ell,u]=[0,1]$, the interval width is exactly
+the rule's authorized unresolved mass divided by its total authorized mass.
 
 \begin{table*}[h]
   \caption{\textbf{Legal observability controls the minimum empirical laundering-classification error.} Joint separation is the weighted empirical separation term in Equation~\eqref{eq:provenance-bayes-risk}; the implementation verifies the corresponding overlap identity to numerical precision.}
@@ -129,8 +139,9 @@ verification inside the write-once evaluator.
   \small
   \textit{Sensitivity and release boundary.}
   The Binance seven-day moving-block sensitivity preserves the arm-level
-  interpretation. At the frozen primary 8-bps fee, only false-authorization
-  burden passes. A 4-bps sensitivity passes both arms, whereas 12 bps passes
+  interpretation. At the frozen primary 8-bps fee, only the registered
+  \texttt{false\_authorization\_burden} endpoint (negative-utility burden)
+  passes. A 4-bps sensitivity passes both arms, whereas 12 bps passes
   neither; these fee-grid results use fewer bootstrap replicates and remain
   secondary. No sensitivity replaces the registered primary. Binance releases
   source archives, official checksums, derived rows, manifests, and code. MES
@@ -236,7 +247,7 @@ Each D0--D7 variant uses matched cluster and hyperparameter budgets. The primary
 \begin{figure*}[h]
   \centering
   \includegraphics[width=\textwidth]{figures/fig_validity_gates.pdf}
-  \Description{Two-panel validity-gate figure. The left panel shows two normalized co-primary effects from the powered Binance order-book test: false-authorization burden exceeds its registered effect threshold, while laundering burden remains below its threshold, so the intersection-union claim fails. The right panel shows valid-mechanism fractions at twenty thousand training clusters for three curricula and four learners.}
+  \Description{Two-panel validity-gate figure. The left panel shows two normalized co-primary effects from the powered Binance order-book test: negative-utility burden exceeds its registered effect threshold, while laundering burden remains below its threshold, so the intersection-union claim fails. The right panel shows valid-mechanism fractions at twenty thousand training clusters for three curricula and four learners.}
   \caption{\textbf{Validity gates preserve partial and undefined evidence.} Panel (a) divides registered Binance effects by their SESOIs; error bars are 95\% cluster-bootstrap intervals and the dashed line is the arm criterion. Planning power uses frozen v0.2 variance. Only one arm passes. Panel (b) reports the fraction of six mechanisms with coverage LCB at least 0.05 at 20,000 clusters; no cell reaches one.}
   \label{fig:validity_gates}
 \end{figure*}
@@ -250,16 +261,16 @@ Each D0--D7 variant uses matched cluster and hyperparameter budgets. The primary
 \end{table}
 
 \begin{table}[t]
-  \caption{Holm-adjusted D2--D7 versus D1 validation contrasts. Delta FAR is \textit{N/A} because no candidate/reference pair has valid endpoints in the same seed.}
+  \caption{Holm-adjusted D2--D7 versus D1 validation contrasts. Delta NUAR is \textit{N/A} because no candidate/reference pair has valid endpoints in the same seed.}
   \label{tab:training_holm}
   \centering
   \benchmarktableformat
   \input{generated/table_training_holm}
 \end{table}
 
-The D7 role-neutral control masks role and lineage fields during training, calibration, and evaluation. It has 0/5 valid endpoints. Feature-group masking also shows that the fixed learner depends materially on role features: masking them raises D7 validation-unseen FAR to 0.167 and ALR to 0.165. These are shortcut diagnostics, not causal feature attributions.
+The D7 role-neutral control masks role and lineage fields during training, calibration, and evaluation. It has 0/5 valid endpoints. Feature-group masking also shows that the fixed learner depends materially on role features: masking them raises D7 validation-unseen NUAR to 0.167 and ALR to 0.165. These are shortcut diagnostics, not causal feature attributions.
 
-The prospective v0.3 robustness study uses Logistic Regression, histogram gradient boosting, MLP, and selective Logistic; budgets of 400, 1,000, 5,000, and 20,000 independent clusters; controlled-seen, multi-generator, and full-audit-seen curricula; and three frozen seeds. At 20,000 clusters, full-audit Logistic and selective Logistic reach mean valid-mechanism fraction 0.833, but neither has all six mechanisms valid in any seed. Sequential-market validation remains below the fixed 0.05 coverage floor, so complete primary FAR remains \textit{N/A}. This distinguishes partial endpoint recovery from a valid cross-mechanism comparison.
+The prospective v0.3 robustness study uses Logistic Regression, histogram gradient boosting, MLP, and coverage-constrained selective Logistic; budgets of 400, 1,000, 5,000, and 20,000 independent clusters; controlled-seen, multi-generator, and full-audit-seen curricula; and three frozen seeds. At 20,000 clusters, full-audit Logistic and selective Logistic reach mean valid-mechanism fraction 0.833, but neither has all six mechanisms valid in any seed. Sequential-market validation remains below the fixed 0.05 coverage floor, so complete primary NUAR remains \textit{N/A}. This distinguishes partial endpoint recovery from a valid cross-mechanism comparison.
 
 \section{Paper-Test Stability and Generator Sensitivity}
 The paper split reproduces validation rankings, while the prospective mechanisms test whether that stability extends beyond one generator family.
@@ -272,7 +283,7 @@ The paper split reproduces validation rankings, while the prospective mechanisms
   \input{generated/table_scale_stability}
 \end{table}
 
-Sequential and institutional generators have raw FAR-rank Spearman 0.994; their correlations with utility IID are 0.683 and 0.738. Lowest-FAR and highest-certification rules differ in two of three families. The controlled generators cannot establish a universal financial relationship; they supply interpretable, mechanistically distinct scenarios for auditing rule-by-generator interactions.
+Sequential and institutional generators have raw NUAR-rank Spearman 0.994; their correlations with utility IID are 0.683 and 0.738. Lowest-NUAR and highest-certification rules differ in two of three families. The controlled generators cannot establish a universal financial relationship; they supply interpretable, mechanistically distinct scenarios for auditing rule-by-generator interactions.
 
 \section{Review Workload and Baseline Governance}
 Review routing is not a free abstention channel. On validation, Lifecycle Checklist sends 43.5\% of controlled rows to review and exceeds a 40\% review-capacity scenario by 1,383 rows. Of those reviewed cases, 79.7\% would be harmful under direct execution, but only 1.9\% contain a safe positive opportunity. The paper-test review rate is 42.9\%. These are simulated workloads and normalized cost sensitivities, not measured staffing time or reviewer accuracy.
@@ -282,14 +293,14 @@ The baseline-governance audit reproduces the registered Lifecycle rule exactly, 
 \section{Baseline Field Access}
 Deployable rules may use candidate action, confidence, uncertainty, expected edge, cost and liquidity proxies, horizon, current source role, and legal lineage fields declared for their task. They may not use realized returns, post-cost utility, harm labels, oracle opportunity, laundering truth, tail loss, future decoys, or test outcomes. Oracle-positive opportunity and attack labels are evaluation-only. Public rationales, profiles, and user identities are not execution evidence.
 
-The equal-information EPV Adapter uses the same legal fields as other baselines. It is included to test whether low FAR transfers to provenance safety, not to establish or refute the companion method paper. The overlap audit snapshots the current AAAI source and checks seeds, exact data hashes, exact/perceptual figure hashes, headline claims, and shared 8/12-grams. The current audit reports zero conflicts across those gates; a fresh snapshot is required before submission.
+The equal-information EPV Adapter uses the same legal fields as other baselines. It is included to test whether low NUAR transfers to provenance safety, not to establish or refute the companion method paper. The overlap audit snapshots the current AAAI source and checks seeds, exact data hashes, exact/perceptual figure hashes, headline claims, and shared 8/12-grams. The current audit reports zero conflicts across those gates; a fresh snapshot is required before submission.
 
 \section{Negative Results and Change Policy}
-FinAuth-Audit keeps development failures as audit evidence. The first controlled generator allowed non-opportunity noise to create unintended positive opportunities; a rule-independent correction repaired the density control. The first training endpoint averaged mechanisms before checking per-mechanism coverage and produced a misleading low-FAR result; the registered endpoint now requires every mechanism to pass its coverage floor. Strict verification later found a cross-layer holdout leak in D4/D5/D7, after which both controlled and provenance holdout families were applied and the affected corpora rebuilt. No test outcome was opened during these changes.
+FinAuth-Audit keeps development failures as audit evidence. The first controlled generator allowed non-opportunity noise to create unintended positive opportunities; a rule-independent correction repaired the density control. The first training endpoint averaged mechanisms before checking per-mechanism coverage and produced a misleading low-NUAR result; the registered endpoint now requires every mechanism to pass its coverage floor. Strict verification later found a cross-layer holdout leak in D4/D5/D7, after which both controlled and provenance holdout families were applied and the affected corpora rebuilt. No test outcome was opened during these changes.
 
 After validation development, the existing test clusters were partitioned using event IDs only. A validation rehearsal reproduced registered outputs, the scientific surface was frozen in a content-addressed archive, and the paper-test evaluator was executed once. After inspection, generator distributions, attack definitions, seeds, feature manifests, certification thresholds, primary endpoints, and robustness profiles cannot change to obtain a preferred ranking. A correction requires a reproducible defect and a versioned record that preserves the original result. The 5,000-cluster community-hidden set remains unevaluated.
 
 \section{Ethics and Responsible Use}
-Controlled rows are synthetic authorization scenarios and can encode modeling assumptions or omit institutional constraints. Public rows contain event-market observations, not recommendations. The artifact must not be used to justify live trading, automated approval, or removal of human oversight. Users should report source provenance, decision-time legality, coverage, review load, and structural \textit{N/A}; publishing FAR alone is insufficient. Any institutional extension should add expert review, privacy controls, jurisdiction-specific policy, and post-launch monitoring before operational use.
+Controlled rows are synthetic authorization scenarios and can encode modeling assumptions or omit institutional constraints. Public rows contain event-market observations, not recommendations. The artifact must not be used to justify live trading, automated approval, or removal of human oversight. Users should report source provenance, decision-time legality, coverage, review load, and structural \textit{N/A}; publishing NUAR alone is insufficient. Any institutional extension should add expert review, privacy controls, jurisdiction-specific policy, and post-launch monitoring before operational use.
 
 \FloatBarrier

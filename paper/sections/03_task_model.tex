@@ -7,21 +7,23 @@ Each row contains a weak financial prior $p_i$ attached to an event cluster $c(i
 \]
 Execute and reduce are authorized actions. Review is a deferred workflow and is not execution coverage. Realized return, post-cost utility, harm, tail loss, lineage truth, and future decoys are evaluation fields and are prohibited from deployable rules.
 
-Let $A_i$ indicate an authorized action, $U_i$ denote selected post-cost utility, $H_i=\mathbb{1}[A_i=1\land U_i<0]$, and $L_i$ indicate that an authorized action originated from an ineligible source. For an evaluation profile $S$,
+Let $A_i$ indicate an authorized action, $U_i$ denote selected post-cost utility, $N_i=\mathbb{1}[A_i=1\land U_i<0]$ denote a negative-utility outcome, and $L_i$ indicate that an authorized action originated from an ineligible source. The frozen result files retain the historical field name \texttt{FAR}; the paper reports this quantity as negative-utility authorization rate (NUAR):
 \[
- \mathrm{Cov}(S)=\frac{\sum_{i\in S}A_i}{|S|},\quad
- \mathrm{FAR}(S)=\frac{\sum_{i\in S}H_i}{\sum_{i\in S}A_i},\quad
- \mathrm{ALR}(S)=\frac{\sum_{i\in S}L_i}{\sum_{i\in S}A_i}.
+ \begin{aligned}
+ \mathrm{Cov}(S)&=\frac{\sum_{i\in S}A_i}{|S|}, &
+ \mathrm{NUAR}(S)&=\frac{\sum_{i\in S}N_i}{\sum_{i\in S}A_i},\\
+ \mathrm{ALR}(S)&=\frac{\sum_{i\in S}L_i}{\sum_{i\in S}A_i}.
+ \end{aligned}
 \]
-FAR and ALR are \textit{N/A} when $\sum A_i=0$. We define review load as
+NUAR and ALR are \textit{N/A} when $\sum A_i=0$. We define review load as
 \[
  \mathrm{Rev}(S)=\frac{1}{|S|}\sum_{i\in S}\mathbb{1}[d_i=\texttt{review}].
 \]
 Cumulative authorized utility (CAU) sums $U_i$ over authorized rows; missed opportunity cost (MOC) sums the best positive eligible utility on non-authorized rows. Safe-delegation coverage measures authorization of eligible delegated positive opportunities. These quantities describe different objectives and are not collapsed into a scalar leaderboard.
 
-\textbf{Reader map.} Coverage measures how often a rule executes or reduces. FAR measures harmful outcomes conditional on authorization; ALR measures ineligible authority lineage on the same denominator. Review load counts cases deferred to a person. CAU and MOC track authorized and missed positive utility. Structural \textit{N/A} means that a denominator does not exist, not that risk is zero.
+Coverage and review use all rows; NUAR and ALR condition on authorization; CAU and MOC track authorized and missed utility. Structural \textit{N/A} means that a denominator does not exist, not that risk is zero.
 
-For the multi-task actual-model layer, FAR is retained only as a legacy alias for \emph{directional economic-loss authorization}, $\Pr(U<0\mid A=1)$. We separately report material harm, defined by task-specific predeclared severity thresholds; directional tail harm; and authority violation, defined as authorization of an evidence-only risk critic. A losing action is therefore not automatically a material or authority failure, and a profitable action cannot legalize an ineligible source. Structural \textit{N/A} also applies when no development candidate satisfies a preregistered operating-point constraint.
+For the multi-task actual-model layer, we name the same conditional quantity \emph{economic-loss authorization rate} (ELAR), $\Pr(U<0\mid A=1)$. We separately report material harm, defined by task-specific predeclared severity thresholds; directional tail harm; and authority violation, defined as authorization of an evidence-only risk critic. A losing action is therefore not automatically a material or authority failure, and a profitable action cannot legalize an ineligible source. Structural \textit{N/A} also applies when no development candidate satisfies a preregistered operating-point constraint.
 
 \paragraph{Observable-provenance limit.}
 Let $L\in\{0,1\}$ denote laundering truth and let $X$ be any legal observable signature available to a provenance rule. A standard Bayes-classification identity~\cite{devroye1996probabilistic} gives
@@ -32,5 +34,31 @@ Let $L\in\{0,1\}$ denote laundering truth and let $X$ be any legal observable si
 \end{equation}
 Under equal class priors this is $(1-\mathrm{TV}(P_{X\mid L=0},P_{X\mid L=1}))/2$. Thus identical legal signatures with conflicting lineage truth impose unavoidable error on every rule measurable with respect to $X$; randomization cannot improve the Bayes risk. FinAuth-Audit reports the plug-in finite-sample value and its exact overlap identity, not a claim that deployed lineage distributions are known. The proof is in the supplement.
 
-\subsection{Four validity threats}
-\textbf{Coverage collapse} occurs when a rule suppresses difficult profiles, leaving an apparently low FAR over a narrow authorized subset. \textbf{Provenance laundering} occurs when the current source appears eligible although authority originated from an ineligible source and propagated through delegation, paraphrase, or multiple hops. Full lineage, partial signatures, and current-role-only observations define different identifiability regimes. \textbf{Invalid transfer or training evidence} occurs when public replay violates point-in-time availability, treats derived rows as independent, lacks event-cluster power, or compares learners after mechanism-specific coverage collapses. FinAuth-Audit treats these as benchmark-validity failures, not merely model errors.
+The same observability limit gives a policy-level partial-identification bound. If legal evidence implies $\ell(x)\leq\Pr(L=1\mid X=x)\leq u(x)$ and a rule authorizes according to $a(x)$, then
+\begin{equation}
+ \frac{\mathbb{E}[a(X)\ell(X)]}{\mathbb{E}[a(X)]}
+ \leq \mathrm{ALR}(a) \leq
+ \frac{\mathbb{E}[a(X)u(X)]}{\mathbb{E}[a(X)]}.
+ \label{eq:provenance-partial-id}
+\end{equation}
+The interval width is the authorized mass on unresolved signatures divided by authorization coverage when $u(x)-\ell(x)=1$ there. This is a sharp descriptive bound under pointwise-compatible label intervals, and explains why a hard provenance gate can guarantee integrity only by declining to authorize unresolved cases.
+
+\subsection{Four-step validity audit}
+\textbf{Coverage collapse} occurs when a rule suppresses difficult profiles, leaving an apparently low NUAR over a narrow authorized subset. \textbf{Lineage laundering} occurs when the current source appears eligible although authority originated from an ineligible source and propagated through delegation, paraphrase, or multiple hops. Full lineage, partial signatures, and current-role-only observations define different identifiability regimes. \textbf{Transfer invalidity} occurs when a rule ordering learned from one generator, source, or threshold regime does not support its preregistered claim on another; failure to reproduce inverse transfer is not evidence that all transfer fails. \textbf{Evidence insufficiency} occurs when public replay violates point-in-time availability, treats derived rows as independent, lacks event-cluster power, or compares learners after mechanism-specific coverage collapses. FinAuth-Audit treats these as benchmark-validity failures, not merely model errors.
+
+\begin{table*}[t]
+  \caption{\textbf{Four validity threats and their claim consequences.}}
+  \label{tab:validity_threats}
+  \centering
+  \benchmarktableformat
+  \begin{tabularx}{\textwidth}{p{0.14\textwidth}XXX}
+    \toprule
+    Threat & Naive conclusion & Required audit & Failed-gate consequence \\
+    \midrule
+    Coverage collapse & Lowest NUAR is safest & NUAR/ALR bounds; coverage LCB; review/utility & Narrow action is uncertified or \textit{N/A} \\
+    Lineage laundering & Current role means clean authority & Leakage strata; Bayes and partial-ID bounds & Low NUAR may retain ALR \\
+    Transfer invalidity & Controlled or pilot ranks transfer & Frozen cross-domain tests; endpoint separation & Failed primary stays failed \\
+    Evidence insufficiency & Any replay supports a claim & Point-in-time power; mechanism coverage & Exploratory or \textit{N/A} \\
+    \bottomrule
+  \end{tabularx}
+\end{table*}

@@ -7,6 +7,11 @@ It asks whether an authorization benchmark can make a rule look safe through
 coverage collapse, provenance shortcuts, non-point-in-time public data, or
 benchmark-specific training artifacts.
 
+The controlled/provenance result key `far` is retained for release
+compatibility, but the paper displays it as negative-utility authorization rate
+(NUAR). It measures negative post-cost utility among authorized rows and is not
+a procedural or legal violation label.
+
 The project is isolated from:
 
 - the AAAI EPV method paper;
@@ -73,4 +78,5 @@ Complete author metadata is required for the strict build. Validate it with
 PDF, manifest, and SHA-256 sidecar under the workspace-level `paper/kdd/`. The
 anonymous internal mirror has the explicit suffix `INTERNAL-ANONYMOUS`. See
 `docs/submission_handoff.md` for the ACM metadata format and external-file
-workflow.
+workflow. The paper Makefile fixes `SOURCE_DATE_EPOCH` for v0.6.0, so repeated
+builds from the same release produce the same PDF bytes and checksum.

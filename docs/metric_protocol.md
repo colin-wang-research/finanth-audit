@@ -10,8 +10,10 @@
 ## Denominators
 
 - Coverage denominator: all rows in the declared evaluation profile.
-- FAR denominator: authorized actions only. If zero actions are authorized, FAR
-  is N/A, not zero.
+- NUAR denominator: authorized actions only. If zero actions are authorized,
+  NUAR is N/A, not zero. The frozen CSV/API field remains `far`; this is a
+  compatibility name for negative-utility authorization rate, not a procedural
+  violation label.
 - UPA denominator: authorized actions only. It is N/A at zero authorization.
 - ALR denominator: authorized actions only. It is N/A at zero authorization.
 - Review and abstain rates use all profile rows.
@@ -24,11 +26,11 @@ All bounds use `event_cluster_id` as the resampling unit. Derived prior rows in
 the same cluster are resampled together. Final certification uses 2,000
 bootstrap replicates and seed 3794103132. One-sided 95% bounds are:
 
-- 95th percentile for FAR and ALR UCBs;
+- 95th percentile for NUAR and ALR UCBs;
 - 5th percentile for coverage LCB;
 - percentile intervals for descriptive secondary metrics.
 
-Replicates with zero authorized actions contribute coverage zero but N/A FAR,
+Replicates with zero authorized actions contribute coverage zero but N/A NUAR,
 UPA, and ALR. If every replicate is N/A for an execution-denominator metric,
 its bound is N/A and no certification cell depending on it passes.
 

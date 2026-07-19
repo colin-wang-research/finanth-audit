@@ -4,9 +4,9 @@
     {
       "claim": "The benchmark separates certification, provenance, source and mechanism transfer, and pre-result validity gates; F3 reports the preregistered rank-support state as False.",
       "hashes": {
-        "pdf": "bf8ed35a0e360051fbb626aa1b0437dd971f5cdcecc6febcd20997a54fc3eb56",
-        "png": "6beef440843f3c2791e70f04ae2ccb6f14005f9b35dde3187255d58fe3a91654",
-        "svg": "93fae5a7ffe3349b7c00a5e066b72a798986a7e1ac6b68671ad0e6735925c54b"
+        "pdf": "4590de81aa9c1c658559504dabcafc7fb6ddfc8678e5aa216a7d41f7fa1773e7",
+        "png": "1fe74830551d06ce0112a9218f5a385d32153112ebb396213746ce8e502ba551",
+        "svg": "f7789b258014b200747bc56717bdd7eecc1d34881e16a6109d4a56dd8b4d19ce"
       },
       "name": "fig_benchmark_overview",
       "rank_transfer_independent_dates": 200,
@@ -27,11 +27,11 @@
       }
     },
     {
-      "claim": "Raw FAR, coverage, lineage integrity, and conservative hypervolume produce different rule orderings.",
+      "claim": "Raw NUAR, coverage, lineage integrity, and conservative hypervolume produce different rule orderings.",
       "hashes": {
-        "pdf": "e309d81c533a33d0a2c8c69157f4e2c9c3dd50bb88fbb850fc13fc2b5b5d0927",
-        "png": "bb6ccbb5e602594060cb37a88e58055fa32a1cfdfefb05e89181fce194c081ed",
-        "svg": "a2ae313031d6a12dca4648ff259e74c604430990198b076bb9b00eeb750ef611"
+        "pdf": "b74842aa67a599fb4fffcddd1539ee415ad43b8e2b4f92f82f4ce484bb6e6faf",
+        "png": "4df71d03b66b75b63454362d8ab9812ac333ec23ef8448e601b85a7f50a93a8f",
+        "svg": "f4c1be7a24ff7fae8549d6417508129327bce77ba557516788f2b1221cc3c8cc"
       },
       "name": "fig_certification_surface",
       "size_inches": [
@@ -52,9 +52,9 @@
     {
       "claim": "Clean current roles do not prevent indirect laundering, while hard provenance gating trades integrity for coverage.",
       "hashes": {
-        "pdf": "593b0b0589d815e921b1d7653530cb17ce7cb4c98a7e90b3afdff631fa3f8f4b",
+        "pdf": "d240f111927f8b5a2bbd2b0146f3217b673619872b4341c4134170d14f92a89d",
         "png": "90e103880e8db935f9082f2e2cef485507c4bbb721c4f243809693fbdbdd6a4a",
-        "svg": "10f2ccb0d3aeccef1c982fd5f4989725a6b97ce712eb703862f996bf2de5eba0"
+        "svg": "fa2177e25d7f8ec026583c7e8b4cc3cf6639300b89fee87ce432c2ab6756bc2e"
       },
       "name": "fig_provenance_laundering",
       "size_inches": [
@@ -75,16 +75,16 @@
     {
       "claim": "The 200-date actual-model test separates economic loss from material and authority harm, does not support inverse rank transfer, and shows that development-only recalibration can trade coverage for authority violations.",
       "hashes": {
-        "pdf": "1aff4139e9b920f7093866d310c16a6d411972a1e4549d473fc61b1448133347",
-        "png": "cf36a97f5e7b609f9ab7fa44f1c3fccd8d2fcad79ca83eb4c73b9684a09b549e",
-        "svg": "1f9b1a1992e234e6486ff800e8432c379f55b8520f8f84e0e4b25f8d636c4472"
+        "pdf": "d6b9faf159077a4ca6029e7b50a80100f8475bc594d308d3e289b9919875c0bb",
+        "png": "a48f6e4ecd8f9c0a3bd5f68230988410596df11d8e96546ed0dc2b4748f9ec35",
+        "svg": "44284ead52835d35c066ca98e440ea1387baf79350132108335fee5504dbdb7f"
       },
       "name": "fig_actual_model_validity",
       "rank_transfer_independent_dates": 200,
       "rank_transfer_primary_support": false,
       "size_inches": [
         6.95,
-        3.35
+        4.45
       ],
       "text_qa": {
         "all_text_overlap_count": 0,
@@ -100,9 +100,9 @@
     {
       "claim": "A preregistered external test can yield a mixed failure, while mechanism-coverage gates keep incomplete learner comparisons undefined.",
       "hashes": {
-        "pdf": "9ea37322a1bd82bcfe1b3edf7389d56fa699a1bfaf93a060b5250d27d60590dd",
-        "png": "83d24351f107fe553a8c6a752ccbe2912fecb63c74ec0a933f938cbe330b7344",
-        "svg": "561d59c693a45a77629ca642c6c4ae99d44d952b8568a12b60a9cb38de5e580c"
+        "pdf": "a97b09b1206df56b4e077967b0efb6c6a0cc51ba2159ec3a89885657d4e4fef4",
+        "png": "b34c18992361eeec682e7d2037a7188de2debdb4e50270e6f9437395696bb9b7",
+        "svg": "1c5f3c2b58250c3dc4e9f343536294774f217fdf15a8ff4e00f89ea9f310df90"
       },
       "name": "fig_validity_gates",
       "size_inches": [

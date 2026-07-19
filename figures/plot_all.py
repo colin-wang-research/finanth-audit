@@ -290,7 +290,7 @@ def plot_benchmark_overview(
         0.34,
         "Validity audits",
         [
-            "FAR / ALR / coverage",
+            "NUAR / ALR / coverage",
             "Certification surface",
             "Point-in-time power",
             "Mechanism coverage",
@@ -455,7 +455,7 @@ def plot_real_agent_validity(output_dir: Path) -> dict[str, object]:
     zero_overall = zero_overall.set_index("rule").loc[rule_order].reset_index()
     recal_overall = recal_overall.set_index("rule").loc[rule_order].reset_index()
 
-    fig = plt.figure(figsize=(FULL_WIDTH, 3.35))
+    fig = plt.figure(figsize=(FULL_WIDTH, 4.45))
     grid = fig.add_gridspec(
         1,
         3,
@@ -637,7 +637,7 @@ def plot_real_agent_validity(output_dir: Path) -> dict[str, object]:
         "rank_transfer_independent_dates": int(registry["paper_test_clusters"]),
         "hashes": hashes,
         "text_qa": qa,
-        "size_inches": [FULL_WIDTH, 3.35],
+        "size_inches": [FULL_WIDTH, 4.45],
     }
 
 
@@ -741,7 +741,7 @@ def plot_certification(output_dir: Path) -> dict[str, object]:
         },
     )
     ax.set_xlabel("Authorized coverage")
-    ax.set_ylabel("False authorization rate (FAR)")
+    ax.set_ylabel("Neg.-utility auth. rate (NUAR)")
     ax.set_title("Raw operating points")
     clean_axis(ax, "both")
     legend_handles = [
@@ -798,7 +798,7 @@ def plot_certification(output_dir: Path) -> dict[str, object]:
     plt.close(fig)
     return {
         "name": "fig_certification_surface",
-        "claim": "Raw FAR, coverage, lineage integrity, and conservative hypervolume produce different rule orderings.",
+        "claim": "Raw NUAR, coverage, lineage integrity, and conservative hypervolume produce different rule orderings.",
         "hashes": hashes,
         "text_qa": qa,
         "size_inches": [FULL_WIDTH, 3.45],
@@ -956,7 +956,7 @@ def plot_validity_gates(output_dir: Path) -> dict[str, object]:
     )
     ax = axes[0]
     endpoint_specs = [
-        ("False-auth. burden", external["false_authorization_burden"], -1.0),
+        ("Neg.-utility burden", external["false_authorization_burden"], -1.0),
         ("Laundering burden", external["laundering_burden"], 1.0),
     ]
     y_positions = np.array([1.0, 0.0])

@@ -1,5 +1,10 @@
 # Test Freeze Protocol
 
+Terminology note: this historical freeze records the metric key `FAR`. The
+paper and current documentation display the unchanged quantity as NUAR because
+it is negative post-cost utility conditional on authorization, not a procedural
+violation rate. No threshold or frozen result is changed by this display label.
+
 ## Frozen before test access
 
 - seed registry;

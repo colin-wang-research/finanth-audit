@@ -1,9 +1,9 @@
 # FinAuth-Audit Final Status Report
 
-- Write time: 2026-07-19 14:04:00 CST
+- Write time: 2026-07-19 20:20:00 CST
 - Timezone: Asia/Shanghai
 - Release version: **0.6.0**
-- Submission state: **strict single-blind PDF complete; public GitHub publication pending**
+- Submission state: **strict single-blind PDF and deterministic public package complete**
 
 ## 1. Canonical Deliverables
 
@@ -11,7 +11,7 @@
 - Page-faithful HTML: `paper/html/FinAuth-Audit.html`
 - Submission-workspace mirror: `../paper/kdd/FinAuth-Audit-KDD.pdf`
 - Submission PDF SHA-256:
-  `a43ac14f8725a38a5862e65cefc1161f70fedd779eef1e060b8d7c21f30a824b`
+  `153834ba3fda929f34f322a17c1b14f1d76c3eb7b9e3454a02aac6ab04b61cb7`
 - Public release policy: `release/release_spec.json`
 - Public artifact verifier: `release/verify_release.py`
 - Strict submission finalizer: `paper/finalize_submission.py`
@@ -21,13 +21,13 @@
 
 The combined PDF has **20 pages**: eight main-content pages, one references
 page, and eleven supplement pages. It contains five script-generated vector
-figures, twenty script-generated tabular outputs, and 59 bibliography entries.
+figures, twenty script-generated tabular outputs, and 37 bibliography entries.
 The first eight content pages comply with the KDD Datasets & Benchmarks page
 budget; references and the supplement follow in the same PDF.
 
 ## 2. Paper And Visual Verification
 
-- Strict single-blind paper verification: **108/108 pass**.
+- Strict single-blind paper verification: **111/111 pass**.
 - Displayed authors: Ke Wang and Xiaorui Tang, with affiliations and emails.
 - Undefined citations or references: **0**.
 - Overfull horizontal boxes: **0**.
@@ -114,9 +114,10 @@ metadata and are prohibited from execution-rule evidence.
 
 ## 6. Other Binding Findings
 
-1. **Raw FAR can misrank authorization validity.** Low false-authorization rate
-   can coexist with low coverage, authority laundering, high review load, or
-   missed opportunity.
+1. **Raw NUAR can misrank authorization validity.** The frozen artifact field
+   remains `far`, but it measures negative post-cost utility among authorized
+   rows, not procedural illegality. Low NUAR can coexist with coverage collapse,
+   lineage laundering, high review load, or missed opportunity.
 2. **Current-role integrity does not establish lineage integrity.** A rule can
    eliminate direct role leakage while retaining indirect laundering through
    delegation or paraphrase.
@@ -139,11 +140,13 @@ instead of a scalar trading-profit leaderboard.
 
 ## 7. Artifact And Release Safety
 
+- FinAuth-Audit package tests: **216/216 pass**.
+- Root integration tests: **57/57 pass**.
 - Full v0.6 artifact verification: **771/771 pass**.
 - Aggregate-only public verification: **8/8 pass**, with the full internal
   771/771 count recorded without private paths.
 - Standalone public release tests: **6/6 pass**.
-- Public paper verifier: **108/108 pass**.
+- Public paper verifier: **111/111 pass**.
 - Public Python compilation: **pass**.
 - Public release construction is allowlist-only and canonicalizes tar and gzip
   metadata for deterministic archives.
@@ -156,9 +159,10 @@ instead of a scalar trading-profit leaderboard.
 - Released Python files are compiled and the extracted package is installed and
   imported in a clean room.
 
-The verified archive contains **221 members**. Its release verification report
+The verified archive contains **222 members**. Its release verification report
 and authoritative checksum sidecar remain external to the archive to avoid
-self-reference.
+self-reference. The authoritative archive SHA-256 is recorded only in the
+external checksum sidecar and release metadata.
 
 ## 8. Review Status
 
@@ -197,10 +201,11 @@ memory. These limitations remain explicit.
 
 ## 10. Submission Actions
 
-1. Publish the prepared repository and `v0.6.0` tag at
-   `https://github.com/colin-wang-research/finanth-audit`.
-2. Upload the verified archive, checksum, and strict single-blind PDF as the
-   GitHub release assets.
+1. Public source repository and version tag:
+   `https://github.com/colin-wang-research/finanth-audit` at `v0.6.0`.
+2. Versioned release assets are attached to the GitHub `v0.6.0` release:
+   strict PDF, PDF checksum, verified archive, archive checksum, build manifest,
+   and verification report.
 3. Archive the GitHub release in Zenodo or another DOI-bearing repository and
    add the minted DOI without changing scientific results.
 4. Submit the non-placeholder metadata and PDF to the KDD 2027 Datasets and

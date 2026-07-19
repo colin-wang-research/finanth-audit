@@ -32,7 +32,24 @@ def _spec() -> dict[str, object]:
 
 def test_public_release_identity_and_core_outputs() -> None:
     assert (ROOT / "VERSION").read_text(encoding="utf-8").strip() == "0.6.0"
-    assert (ROOT / "paper" / "FinAuth-Audit.pdf").stat().st_size > 100_000
+    paper_pdf = ROOT / "paper" / "FinAuth-Audit.pdf"
+    assert paper_pdf.stat().st_size > 100_000
+    assert _sha256(paper_pdf) == (
+        "153834ba3fda929f34f322a17c1b14f1d76c3eb7b9e3454a02aac6ab04b61cb7"
+    )
+    author_metadata = (ROOT / "paper" / "author_metadata.tex").read_text(
+        encoding="utf-8"
+    )
+    for token in (
+        "Ke Wang",
+        "Xiaorui Tang",
+        "Chanjin (Guangzhou) Technology Development",
+        "colinwang@gatech.edu",
+        "alicetang0618@gmail.com",
+    ):
+        assert token in author_metadata
+    assert "Anonymous Author(s)" not in author_metadata
+    assert (ROOT / "paper" / "supplement.tex").stat().st_size > 1_000
     assert (ROOT / "paper" / "html" / "FinAuth-Audit.html").stat().st_size > 10_000
     figure_manifest = json.loads(
         (ROOT / "paper" / "figures" / "figure_manifest.json").read_text(
@@ -40,6 +57,10 @@ def test_public_release_identity_and_core_outputs() -> None:
         )
     )
     assert len(figure_manifest["figures"]) == 5
+    html_dir = ROOT / "paper" / "html"
+    page_images = sorted(html_dir.glob("FinAuth-Audit[0-9][0-9][0-9].png"))
+    assert len(page_images) == 20
+    assert not (html_dir / "FinAuth-Audit021.png").exists()
 
 
 def test_pinned_v06_aggregates_are_exact_and_payload_safe() -> None:
@@ -123,6 +144,8 @@ def test_extracted_release_rebuilds_and_verifies(tmp_path: Path) -> None:
         trusted_spec_path=SPEC_PATH,
         output_dir=tmp_path,
     )
+    checksum = Path(f"{archive}.sha256").read_text(encoding="utf-8").strip()
+    assert checksum == f"{_sha256(archive)}  {archive.name}"
     report = verify_archive(
         archive,
         clean_room=True,

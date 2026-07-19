@@ -26,6 +26,13 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def submission_output_path() -> Path:
+    workspace_output = WORKSPACE / "paper" / "kdd" / "FinAuth-Audit-KDD.pdf"
+    if ROOT.name == "finauth_audit" and workspace_output.parent.is_dir():
+        return workspace_output
+    return ROOT / "dist" / "FinAuth-Audit-KDD.pdf"
+
+
 def command_output(command: list[str]) -> str:
     result = subprocess.run(
         command,
@@ -69,7 +76,10 @@ def extract_page(page: int) -> str:
     )
 
 
-def verify_paper(allow_placeholder_authors: bool) -> list[dict[str, object]]:
+def verify_paper(
+    allow_placeholder_authors: bool,
+    defer_submission_output: bool = False,
+) -> list[dict[str, object]]:
     checks: list[dict[str, object]] = []
     required = [
         PDF_PATH,
@@ -108,6 +118,9 @@ def verify_paper(allow_placeholder_authors: bool) -> list[dict[str, object]]:
         (ROOT / "release" / "release_spec.json").read_text(encoding="utf-8")
     )
     supplement = (PAPER_DIR / "supplement.tex").read_text(encoding="utf-8")
+    introduction = (PAPER_DIR / "sections" / "01_introduction.tex").read_text(
+        encoding="utf-8"
+    )
     section_sources = "\n".join(
         path.read_text(encoding="utf-8")
         for path in sorted((PAPER_DIR / "sections").glob("*.tex"))
@@ -267,6 +280,30 @@ def verify_paper(allow_placeholder_authors: bool) -> list[dict[str, object]]:
         not stale_claims,
         f"stale_claims={stale_claims}",
     )
+    add_check(
+        checks,
+        "negative-utility terminology contract",
+        "negative-utility authorization rate (NUAR)" in manuscript
+        and "\\mathrm{NUAR}" in manuscript
+        and "historical field name \\texttt{FAR}" in manuscript
+        and "false authorization rate" not in manuscript.casefold(),
+        "NUAR displayed; legacy far field documented; generic false-authorization-rate wording absent",
+    )
+    add_check(
+        checks,
+        "provenance partial-identification bound",
+        "\\label{eq:provenance-partial-id}" in manuscript
+        and "Derivation of Equation~\\eqref{eq:provenance-partial-id}" in supplement,
+        "bound stated in main paper and derived in supplement",
+    )
+    add_check(
+        checks,
+        "benchmark overview in main paper",
+        "\\label{fig:overview}" in introduction
+        and "\\label{fig:certification}" in supplement
+        and "\\label{fig:certification}" not in introduction,
+        "overview is main Figure 1; certification surface is supplementary",
+    )
 
     html_manifest = json.loads(
         (HTML_DIR / "html_manifest.json").read_text(encoding="utf-8")
@@ -327,29 +364,35 @@ def verify_paper(allow_placeholder_authors: bool) -> list[dict[str, object]]:
         if value.strip()
     ]
     page_one = page_text.get(1, "")
-    displayed_authors_ok = (
-        "Anonymous Author(s)" in page_one
-        if allow_placeholder_authors
-        else bool(author_names)
+    named_authors_displayed = (
+        bool(author_names)
         and "Anonymous Author(s)" not in page_one
         and all(name in page_one for name in author_names)
+    )
+    displayed_authors_ok = (
+        "Anonymous Author(s)" in page_one or named_authors_displayed
+        if allow_placeholder_authors
+        else named_authors_displayed
     )
     add_check(
         checks,
         "displayed author policy",
         displayed_authors_ok,
         (
-            "internal anonymous wrapper allowed"
+            "internal anonymous wrapper or single-blind author page allowed"
             if allow_placeholder_authors
             else f"single-blind authors expected={author_names}"
         ),
     )
-    submission_pdf = WORKSPACE / "paper" / "kdd" / "FinAuth-Audit-KDD.pdf"
+    submission_pdf = submission_output_path()
     submission_manifest = submission_pdf.with_suffix(".submission.json")
     submission_checksum = Path(f"{submission_pdf}.sha256")
     submission_detail = "strict submission path is absent until finalization"
     submission_output_safe = not submission_pdf.exists()
-    if submission_pdf.exists():
+    if defer_submission_output:
+        submission_output_safe = True
+        submission_detail = "output attestation deferred until finalizer writes the new artifact"
+    elif submission_pdf.exists():
         try:
             submission_payload = json.loads(
                 submission_manifest.read_text(encoding="utf-8")
@@ -378,10 +421,10 @@ def verify_paper(allow_placeholder_authors: bool) -> list[dict[str, object]]:
     add_check(
         checks,
         "eight-page main-paper boundary",
-        "CONCLUSION" in page_text.get(8, "")
+        any("CONCLUSION" in page_text.get(page, "") for page in range(1, 9))
         and "REFERENCES" not in page_text.get(8, "")
         and "REFERENCES" in page_text.get(9, ""),
-        "conclusion on page 8; references start on page 9",
+        "conclusion is within the first eight pages; references start on page 9",
     )
     add_check(
         checks,
@@ -493,10 +536,15 @@ def verify_paper(allow_placeholder_authors: bool) -> list[dict[str, object]]:
     return checks
 
 
-def write_report(checks: list[dict[str, object]], allow_placeholder_authors: bool) -> tuple[Path, Path]:
+def write_report(
+    checks: list[dict[str, object]],
+    allow_placeholder_authors: bool,
+    defer_submission_output: bool = False,
+) -> tuple[Path, Path]:
     passed = sum(bool(check["passed"]) for check in checks)
     report = {
         "allow_placeholder_authors": allow_placeholder_authors,
+        "defer_submission_output": defer_submission_output,
         "passed": passed,
         "total": len(checks),
         "success": passed == len(checks),
@@ -534,9 +582,21 @@ def main() -> int:
         action="store_true",
         help="Waive only the author-metadata check for internal builds.",
     )
+    parser.add_argument(
+        "--defer-submission-output",
+        action="store_true",
+        help="Defer only the output-attestation check while the finalizer replaces it.",
+    )
     args = parser.parse_args()
-    checks = verify_paper(args.allow_placeholder_authors)
-    json_path, md_path = write_report(checks, args.allow_placeholder_authors)
+    checks = verify_paper(
+        args.allow_placeholder_authors,
+        defer_submission_output=args.defer_submission_output,
+    )
+    json_path, md_path = write_report(
+        checks,
+        args.allow_placeholder_authors,
+        defer_submission_output=args.defer_submission_output,
+    )
     passed = sum(bool(check["passed"]) for check in checks)
     print(f"FinAuth-Audit paper verification: {passed}/{len(checks)}")
     for check in checks:

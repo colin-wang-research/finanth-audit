@@ -1,4 +1,4 @@
-PYTHON ?= .venv/bin/python
+PYTHON ?= $(if $(wildcard .venv/bin/python),.venv/bin/python,../.venv/bin/python)
 PYTHONPATH := ..
 SMOKE_CONFIG := configs/smoke.yaml
 
@@ -137,7 +137,9 @@ paper:
 verify-paper: paper html
 	$(PYTHON) paper/verify_paper.py
 
-verify-paper-internal: paper html
+verify-paper-internal: submission-preflight
+	$(MAKE) -C paper submission-paper
+	$(MAKE) -C paper html
 	$(PYTHON) paper/verify_paper.py --allow-placeholder-authors
 
 submission-preflight:

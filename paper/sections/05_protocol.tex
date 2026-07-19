@@ -1,10 +1,10 @@
 \section{Evaluation Protocol}
 
 \subsection{Rules and legal information}
-The controlled audit compares No Action, Direct Prior, confidence and uncertainty gates, a risk filter, a cost-aware gate, a hard current-role gate, and a lifecycle checklist. The provenance audit adds No Role Gate, Shared Threshold, Soft Penalty, Provenance Hard Gate, Provenance Learned Gate, and an equal-information EPV Adapter. Equal-information means that the adapter receives the same legal decision-time fields as comparable rules, without outcomes or privileged source evidence. It represents one learned utility-aware rule family and tests whether low FAR transfers to provenance integrity; it receives no privileged status. These baselines represent distinct authorization designs, and none defines the benchmark identity. Each implementation declares its legal fields, and the feature-access audit fails if a deployable rule uses realized return, utility, harm, laundering truth, tail loss, future decoys, or public outcomes.
+The controlled audit compares No Action, Direct Prior, confidence and uncertainty gates, a risk filter, a cost-aware gate, a hard current-role gate, and a lifecycle checklist. The provenance audit adds No Role Gate, Shared Threshold, Soft Penalty, Provenance Hard Gate, Provenance Learned Gate, and an equal-information EPV Adapter. Equal-information means that the adapter receives the same legal decision-time fields as comparable rules, without outcomes or privileged source evidence. It represents one learned utility-aware rule family and tests whether low NUAR transfers to provenance integrity; it receives no privileged status. The prospective learner suite adds Logistic Regression, histogram gradient boosting, MLP, and a selective Logistic whose threshold is chosen by a frozen coverage-constrained validation rule~\cite{elyaniv2010foundations,geifman2017selective}. These baselines represent distinct authorization designs, and none defines the benchmark identity. Each implementation declares its legal fields, and the feature-access audit fails if a deployable rule uses realized return, utility, negative-outcome labels, laundering truth, tail loss, future decoys, or public outcomes.
 
 \subsection{Cluster-aware bounds and certification}
-All uncertainty resamples event clusters, not derived prior rows~\cite{cameron2008bootstrap}. Main controlled and provenance results use 5,000 bootstrap replicates. For each rule and profile, FinAuth-Audit estimates a one-sided 95\% coverage lower bound and FAR/ALR upper bounds. The frozen certification grid uses
+All uncertainty resamples event clusters, not derived prior rows~\cite{cameron2008bootstrap}. Main controlled and provenance results use 5,000 bootstrap replicates. For each rule and profile, FinAuth-Audit estimates a one-sided 95\% coverage lower bound and NUAR/ALR upper bounds. The frozen certification grid uses
 \[
 \begin{aligned}
 \tau_h&\in\{.05,.10,.15,.20,.25,.30\},\\
@@ -14,16 +14,18 @@ c_{\min}&\in\{.05,.10,.20,.30,.50\}.
 \]
 A cell passes only if
 \[
- \mathrm{UCB}_{.95}(\mathrm{FAR})\le\tau_h,\quad
- \mathrm{UCB}_{.95}(\mathrm{ALR})\le\tau_a,\quad
- \mathrm{LCB}_{.95}(\mathrm{Cov})\ge c_{\min}.
+ \begin{aligned}
+ \mathrm{UCB}_{.95}(\mathrm{NUAR})&\le\tau_h, &
+ \mathrm{UCB}_{.95}(\mathrm{ALR})&\le\tau_a,\\
+ \mathrm{LCB}_{.95}(\mathrm{Cov})&\ge c_{\min}.
+ \end{aligned}
 \]
 Certification volume is the passed fraction of the 120 deterministic cells, not a multiple-testing result or weighted leaderboard score. We report the minimum of overall and stress-profile volumes. Coverage collapse is $1-\mathrm{Cov}_{stress}/\mathrm{Cov}_{ordinary}$ and remains undefined when ordinary coverage is zero.
 
-Because the discrete grid encodes risk preferences, we also report five frozen profile grids, a continuous conservative hypervolume, and the FAR/ALR/coverage/MOC Pareto set on validation. These diagnostics do not select a universal winner. Review is reported separately because routing a case to a person consumes capacity: the artifact evaluates fixed 5\%, 10\%, 20\%, and 40\% review-capacity scenarios and normalized 0.5--5 basis-point review-cost sensitivities.
+Because the discrete grid encodes risk preferences, we also report five frozen profile grids, a continuous conservative hypervolume, and the NUAR/ALR/coverage/MOC Pareto set on validation. These diagnostics do not select a universal winner. Review is reported separately because routing a case to a person consumes capacity: the artifact evaluates fixed 5\%, 10\%, 20\%, and 40\% review-capacity scenarios and normalized 0.5--5 basis-point review-cost sensitivities.
 
 \subsection{Pre-result gates}
-Public evaluation is permitted to become confirmatory only if point-in-time checks, independent-cluster counts, rule coverage, and the frozen power threshold all pass. The gate uses validation uncertainty and structural test-cluster counts without evaluating public test outcomes. Training utility uses a mechanism-wise FAR endpoint at a validation-fixed target coverage. The endpoint is defined only when every held-out mechanism passes its coverage-LCB floor. D2--D7 are compared with D1 using Holm correction~\cite{holm1979simple}; D0 and the role-neutral control are outside that family. Undefined seed pairs remain absent rather than being imputed as wins or losses.
+Public evaluation is permitted to become confirmatory only if point-in-time checks, independent-cluster counts, rule coverage, and the frozen power threshold all pass. The gate uses validation uncertainty and structural test-cluster counts without evaluating public test outcomes. Training utility uses a mechanism-wise NUAR endpoint at a validation-fixed target coverage. The endpoint is defined only when every held-out mechanism passes its coverage-LCB floor. D2--D7 are compared with D1 using Holm correction~\cite{holm1979simple}; D0 and the role-neutral control are outside that family. Undefined seed pairs remain absent rather than being imputed as wins or losses.
 
 The v0.6 zero-shot transfer test compares six shared directional rules using economic-loss authorization. Support for the preregistered inverse hypothesis requires both date-bootstrap $\Pr(\rho<0)\ge .95$ and an exact one-sided inverse-or-more-extreme permutation $p\le .05$. Registered diagnostics include Kendall $\tau_b$, leave-one-rule-out, pairwise reversals, and model, asset, and volatility strata; subgroup estimates are not powered confirmatory tests. A secondary in-domain track selects unchanged rule forms from fixed grids using five chronological folds over 50 development dates and a 0.10 execute-or-reduce coverage floor. Selections are frozen before paper outcomes; invalid selections remain \textit{N/A}.
 

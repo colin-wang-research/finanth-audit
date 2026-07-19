@@ -27,9 +27,10 @@ hidden labels.
 
 ## Reported results
 
-The report includes coverage, FAR, ALR, CAU, MOC, review load, safe-delegation
-coverage, cluster-aware uncertainty, and certification profiles. FAR and ALR are
-reported as structural `N/A` when no rows are authorized. A single aggregate
+The report includes coverage, NUAR (legacy result field `far`), ALR, CAU, MOC,
+review load, safe-delegation coverage, cluster-aware uncertainty, and
+certification profiles. NUAR and ALR are reported as structural `N/A` when no
+rows are authorized. A single aggregate
 score is not used as the acceptance criterion.
 
 ## Scientific boundary

@@ -17,6 +17,7 @@ from pathlib import Path
 PAPER_DIR = Path(__file__).resolve().parent
 PDF_PATH = PAPER_DIR / "FinAuth-Audit.pdf"
 DEFAULT_OUTPUT = PAPER_DIR / "html"
+PAGE_IMAGE_GLOB = "FinAuth-Audit[0-9][0-9][0-9].png"
 
 
 def sha256(path: Path) -> str:
@@ -103,6 +104,12 @@ def pdf_page_count() -> int:
     return int(match.group(1))
 
 
+def remove_stale_page_images(output_dir: Path, current_names: set[str]) -> None:
+    for path in output_dir.glob(PAGE_IMAGE_GLOB):
+        if path.name not in current_names:
+            path.unlink()
+
+
 def build(output_dir: Path) -> dict[str, object]:
     pdftohtml = shutil.which("pdftohtml")
     if not pdftohtml:
@@ -135,8 +142,10 @@ def build(output_dir: Path) -> dict[str, object]:
         page_images = sorted(temp_dir.glob("FinAuth-Audit[0-9][0-9][0-9].png"))
         for image in page_images:
             shutil.copy2(image, output_dir / image.name)
+        remove_stale_page_images(output_dir, {image.name for image in page_images})
 
     rendered_pages = len(re.findall(r'<div id="page\d+-div"', document))
+    output_page_images = sorted(output_dir.glob(PAGE_IMAGE_GLOB))
     missing_assets = local_asset_refs(document, output_dir)
     text = visible_text(document)
     required_markers = {
@@ -150,7 +159,7 @@ def build(output_dir: Path) -> dict[str, object]:
     unresolved = bool(re.search(r"\[\?\]|undefined reference|undefined citation", text, re.I))
     success = (
         rendered_pages == expected_pages
-        and len(page_images) == expected_pages
+        and len(output_page_images) == expected_pages
         and not missing_assets
         and all(required_markers.values())
         and not unresolved
@@ -160,7 +169,7 @@ def build(output_dir: Path) -> dict[str, object]:
         "source_pdf_sha256": sha256(PDF_PATH),
         "expected_pages": expected_pages,
         "rendered_pages": rendered_pages,
-        "page_images": len(page_images),
+        "page_images": len(output_page_images),
         "missing_local_assets": missing_assets,
         "required_markers": required_markers,
         "unresolved_reference_tokens": unresolved,

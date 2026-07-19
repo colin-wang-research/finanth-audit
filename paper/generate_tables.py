@@ -729,7 +729,7 @@ def generate_external_orderbook(out: Path) -> str:
             "Binance",
             "powered public",
             f"{binance['false_authorization_burden']['clusters']:,}",
-            "False-auth. burden",
+            "Neg.-utility burden",
             signed(binance["false_authorization_burden"]["mean"]),
             interval(binance["false_authorization_burden"]),
             r"$\leq -0.015$",
@@ -759,7 +759,7 @@ def generate_external_orderbook(out: Path) -> str:
             "MES",
             "licensed descriptive",
             f"{databento['false_authorization_burden']['clusters']:,}",
-            "False-auth. burden",
+            "Neg.-utility burden",
             signed(databento["false_authorization_burden"]["mean"]),
             interval(databento["false_authorization_burden"]),
             r"$\leq -0.015$",
@@ -900,7 +900,7 @@ def generate_main_results(out: Path) -> str:
         [
             "Rule",
             "Cov.",
-            "FAR",
+            "NUAR",
             "ALR",
             "Review",
             "CAU",
@@ -1298,6 +1298,9 @@ def generate_real_agent_claim_macros(
     out: Path, v06: V06PaperInputs | None = None
 ) -> str:
     v06 = _resolve_v06_inputs(v06)
+    collapse_path = (
+        ROOT / "results" / "paper_test" / "controlled" / "coverage_collapse.csv"
+    )
     support = v06.rank_transfer["primary_support"]
     dates = int(v06.registry["paper_test_clusters"])
     status = rank_support_status(support)
@@ -1319,8 +1322,7 @@ def generate_real_agent_claim_macros(
         1 for record in reversal_records if record.get("reversal") is True
     )
     proposal_rows = int(v06.registry["proposal_rows"])
-    body = "\n".join(
-        [
+    macros = [
             rf"\newcommand{{\RealAgentRankSupportStatus}}{{{status_tex}}}",
             rf"\newcommand{{\RealAgentRankSupportClaim}}{{{sentence}}}",
             r"\newcommand{\RealAgentRankIndependentUnit}{UTC date}",
@@ -1336,8 +1338,16 @@ def generate_real_agent_claim_macros(
             rf"\newcommand{{\RealAgentLifecycleOmitSpearman}}{{{fmt(lifecycle_loo.get('spearman_rho'))}}}",
             rf"\newcommand{{\RealAgentPairwiseReversalCount}}{{{reversal_count}}}",
             rf"\newcommand{{\RealAgentPairwiseComparisonCount}}{{{len(reversal_records)}}}",
-        ]
-    )
+    ]
+    if collapse_path.is_file():
+        collapse = pd.read_csv(collapse_path).set_index("rule")
+        macros.extend(
+            [
+                rf"\newcommand{{\CostAwareCollapseIndex}}{{{fmt(collapse.loc['Cost-Aware Gate', 'coverage_collapse_index'])}}}",
+                rf"\newcommand{{\LifecycleCollapseIndex}}{{{fmt(collapse.loc['Lifecycle Checklist', 'coverage_collapse_index'])}}}",
+            ]
+        )
+    body = "\n".join(macros)
     return write_fragment(out / "claims_real_agent_v06.tex", body)
 
 
@@ -1372,7 +1382,7 @@ def generate_provenance_results(out: Path) -> str:
             ]
         )
     body = tabular(
-        ["Rule", "Cov.", "FAR", "ALR", "Direct", "Indirect", "Safe del.", "Review"],
+        ["Rule", "Cov.", "NUAR", "ALR", "Direct", "Indirect", "Safe del.", "Review"],
         rows,
         "lrrrrrrr",
     )
@@ -1408,7 +1418,7 @@ def generate_certification_profiles(out: Path) -> str:
             ]
         )
     body = tabular(
-        ["Rule", "Profile", "Coverage LCB", "FAR UCB", "ALR UCB", "Cert. volume"],
+        ["Rule", "Profile", "Coverage LCB", "NUAR UCB", "ALR UCB", "Cert. volume"],
         rows,
         "llrrrr",
     )
@@ -1554,7 +1564,7 @@ def generate_holm(out: Path) -> str:
             ]
         )
     body = tabular(
-        ["Contrast", "Delta FAR", "Valid pairs", "Raw p", "Holm p", "Reject"],
+        ["Contrast", "Delta NUAR", "Valid pairs", "Raw p", "Holm p", "Reject"],
         rows,
         "lrrrrl",
     )
@@ -1569,7 +1579,7 @@ def generate_stability(out: Path) -> str:
         (ROOT / "results" / "paper_test" / "rank_stability.json").read_text()
     )
     rows = [
-        ["Validation vs paper test", "raw FAR", fmt(paper["raw_far_rank"]["spearman"])],
+        ["Validation vs paper test", "raw NUAR", fmt(paper["raw_far_rank"]["spearman"])],
         [
             "Validation vs paper test",
             "certification",
@@ -1588,7 +1598,7 @@ def generate_stability(out: Path) -> str:
                     f"{generator_labels.get(row['generator_a'], row['generator_a'])} "
                     f"vs {generator_labels.get(row['generator_b'], row['generator_b'])}"
                 ),
-                "raw FAR",
+                "raw NUAR",
                 fmt(row["spearman_rho"]),
             ]
         )
@@ -1698,6 +1708,7 @@ def generate(output: Path) -> Path:
     inputs = {}
     input_paths = [
         ROOT / "results" / "paper_test" / "controlled" / "raw_vs_certified_ranking.csv",
+        ROOT / "results" / "paper_test" / "controlled" / "coverage_collapse.csv",
         ROOT / "results" / "paper_test" / "provenance" / "summary.csv",
         ROOT / "results" / "provenance_identifiability" / "ambiguity_bounds.csv",
         ROOT / "results" / "certification_robustness" / "policy_volumes.csv",

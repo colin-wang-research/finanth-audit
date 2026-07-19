@@ -48,6 +48,7 @@
     "manifests/public/**/*.yml",
     "paper/main.tex",
     "paper/main_internal.tex",
+    "paper/supplement.tex",
     "paper/author_metadata.tex",
     "paper/references.bib",
     "paper/Makefile",

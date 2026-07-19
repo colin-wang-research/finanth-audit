@@ -45,8 +45,9 @@ future decoys, or test outcomes.
 ## Metrics
 
 - Coverage: fraction of rows authorized for execute or reduce.
-- Controlled FAR: negative post-cost authorized outcomes divided by authorized
-  rows; structural `N/A` when the denominator is zero.
+- Controlled NUAR: negative post-cost authorized outcomes divided by authorized
+  rows; structural `N/A` when the denominator is zero. Frozen files retain the
+  legacy field name `far` for compatibility.
 - Actual-model consequence endpoints: directional economic-loss authorization,
   task-specific material harm, directional tail harm, and authority violation.
   Economic loss is not used as a synonym for illegality.
@@ -54,7 +55,7 @@ future decoys, or test outcomes.
 - CAU/MOC: cumulative authorized utility and missed opportunity cost.
 - Review load: fraction routed to human review.
 - Frozen policy profiles and conservative hypervolume: profile-specific and
-  continuous summaries of joint FAR/ALR/coverage constraints. The full
+  continuous summaries of joint NUAR/ALR/coverage constraints. The full
   certification volume remains a sensitivity analysis, not a universal score.
 
 ## Intended use

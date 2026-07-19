@@ -316,6 +316,10 @@ def build_release(
     report_path.write_text(
         json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
+    checksum_path = Path(f"{archive}.sha256")
+    checksum_path.write_text(
+        f"{report['archive_sha256']}  {archive.name}\n", encoding="utf-8"
+    )
     return archive, report_path
 
 
