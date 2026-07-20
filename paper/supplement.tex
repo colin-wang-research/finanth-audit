@@ -1,4 +1,10 @@
 \section{Artifact and Reproduction}
+\paragraph{Public repository.}
+The public artifact corresponding to this paper is available at
+\url{https://github.com/colin-wang-research/finanth-audit}. It contains
+released benchmark data, frozen manifests, evaluation code, verification
+scripts, documentation, and the versioned \texttt{v0.6.0} release.
+
 The aggregate v0.6 release combines the frozen v0.2 controlled/provenance
 surface, prospective robustness extensions, the separately frozen v0.3
 external order-book surface, and the frozen v0.6 actual-model proposal
@@ -27,7 +33,7 @@ versioned correctness defect that preserves the original output.
   \input{generated/table_artifact_checklist}
 \end{table*}
 
-The figure generator writes PDF, SVG, and PNG from one source and records a minimum visible font size of 8 pt. Generation fails if marked point labels overlap. The table generator reads frozen result files and records input/output hashes in \texttt{table\_manifest.json}; no reported numeric result is hand-entered into the manuscript. A page-faithful HTML bundle mirrors the combined PDF, while the benchmark card, reproduction guide, maintenance policy, and external-submission protocol state the community-use contract.
+The figure pipeline writes PDF, SVG, and PNG outputs. Figures 2--5 are vector plots with an 8 pt minimum visible font and programmatic overlap checks. Figure 1 preserves the reviewed 2048-by-1143 supplied raster at about 295 effective dpi; the manifest records this exception and its visual overlap review. The table generator reads frozen result files and records input/output hashes in \texttt{table\_manifest.json}; no reported numeric result is hand-entered into the manuscript. A page-faithful HTML bundle mirrors the combined PDF, while the benchmark card, reproduction guide, maintenance policy, and external-submission protocol state the community-use contract.
 
 \begin{figure*}[h]
   \centering

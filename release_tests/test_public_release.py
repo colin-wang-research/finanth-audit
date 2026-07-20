@@ -35,7 +35,7 @@ def test_public_release_identity_and_core_outputs() -> None:
     paper_pdf = ROOT / "paper" / "FinAuth-Audit.pdf"
     assert paper_pdf.stat().st_size > 100_000
     assert _sha256(paper_pdf) == (
-        "2b4a8dcbc7cd38696347903ba338b5b25e29ac6391dc6067704f297f3032feaa"
+        "37657d6c6936c173622fe3a3020e607b8aa8129371bd2d63764700812be72038"
     )
     author_metadata = (ROOT / "paper" / "author_metadata.tex").read_text(
         encoding="utf-8"
@@ -49,7 +49,14 @@ def test_public_release_identity_and_core_outputs() -> None:
     ):
         assert token in author_metadata
     assert "Anonymous Author(s)" not in author_metadata
-    assert (ROOT / "paper" / "supplement.tex").stat().st_size > 1_000
+    repository = "https://github.com/colin-wang-research/finanth-audit"
+    main = (ROOT / "paper" / "main.tex").read_text(encoding="utf-8")
+    supplement = (ROOT / "paper" / "supplement.tex").read_text(encoding="utf-8")
+    assert repository in main
+    assert repository in supplement
+    assert "offline benchmark and release protocol" in main
+    assert "versioned \\texttt{v0.6.0} release" in supplement
+    assert len(supplement) > 1_000
     assert (ROOT / "paper" / "html" / "FinAuth-Audit.html").stat().st_size > 10_000
     figure_manifest = json.loads(
         (ROOT / "paper" / "figures" / "figure_manifest.json").read_text(
