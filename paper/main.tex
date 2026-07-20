@@ -1,4 +1,4 @@
-\documentclass[sigconf,review]{acmart}
+\documentclass[sigconf,review,screen]{acmart}
 
 \usepackage{booktabs}
 \usepackage{tabularx}
@@ -7,6 +7,8 @@
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage{placeins}
+
+\definecolor{FinAuthLinkBlue}{HTML}{1F5AA6}
 
 % Give narrow ACM columns enough flexibility to avoid isolated short overfull
 % lines without shrinking the document font or scaling tables.
@@ -55,6 +57,15 @@ Financial agents turn weak priors into actions, but outcome loss, policy violati
 \ccsdesc[300]{Applied computing~Economics}
 
 \begin{document}
+% acmart applies its own hyperlink defaults at document start. Set the public
+% paper palette here so URLs, citations, and cross-references remain visibly
+% distinct in the generated PDF.
+\hypersetup{%
+  linkcolor=FinAuthLinkBlue,
+  citecolor=FinAuthLinkBlue,
+  urlcolor=FinAuthLinkBlue,
+  filecolor=FinAuthLinkBlue
+}
 \maketitle
 
 \input{sections/01_introduction}
@@ -68,10 +79,8 @@ Financial agents turn weak priors into actions, but outcome loss, policy violati
 
 \FloatBarrier
 \clearpage
-\balance
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references}
-\nobalance
 
 \clearpage
 \appendix

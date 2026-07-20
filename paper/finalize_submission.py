@@ -140,9 +140,17 @@ def validate_author_metadata(path: Path) -> dict[str, object]:
         raise MetadataValidationError("author email may not use the .invalid domain")
 
     main = (PAPER_DIR / "main.tex").read_text(encoding="utf-8")
-    if "\\documentclass[sigconf,review]{acmart}" not in main:
-        raise MetadataValidationError("main.tex is not in KDD single-blind review mode")
-    if "\\documentclass[sigconf,review,anonymous]{acmart}" in main:
+    class_match = re.search(r"\\documentclass\[([^]]+)\]\{acmart\}", main)
+    class_options = (
+        {option.strip() for option in class_match.group(1).split(",")}
+        if class_match
+        else set()
+    )
+    if not {"sigconf", "review", "screen"}.issubset(class_options):
+        raise MetadataValidationError(
+            "main.tex must use KDD single-blind review mode with visible links"
+        )
+    if "anonymous" in class_options:
         raise MetadataValidationError("main.tex must not enable anonymous review mode")
     if "\\input{author_metadata}" not in main:
         raise MetadataValidationError("main.tex does not import author_metadata.tex")

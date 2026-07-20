@@ -35,7 +35,7 @@ def test_public_release_identity_and_core_outputs() -> None:
     paper_pdf = ROOT / "paper" / "FinAuth-Audit.pdf"
     assert paper_pdf.stat().st_size > 100_000
     assert _sha256(paper_pdf) == (
-        "37657d6c6936c173622fe3a3020e607b8aa8129371bd2d63764700812be72038"
+        "6372c75ffbef4e808332e425df9e3b6bab16f8baac226c9cef3b742907ae486e"
     )
     author_metadata = (ROOT / "paper" / "author_metadata.tex").read_text(
         encoding="utf-8"
@@ -43,7 +43,8 @@ def test_public_release_identity_and_core_outputs() -> None:
     for token in (
         "Ke Wang",
         "Xiaorui Tang",
-        "Chanjin (Guangzhou) Technology Development",
+        "The Hong Kong University of Science and Technology",
+        "Hong Kong SAR",
         "colinwang@gatech.edu",
         "alicetang0618@gmail.com",
     ):

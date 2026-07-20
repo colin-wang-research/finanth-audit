@@ -150,8 +150,8 @@ def verify_paper(
         ).read_text(encoding="utf-8")
     )
     single_blind_source = (
-        "\\documentclass[sigconf,review]{acmart}" in main
-        and "\\documentclass[sigconf,review,anonymous]{acmart}" not in main
+        "\\documentclass[sigconf,review,screen]{acmart}" in main
+        and "anonymous" not in main.partition("\\documentclass")[2].partition("}")[0]
         and "\\input{author_metadata}" in main
     )
     placeholder_tokens = (
@@ -169,7 +169,7 @@ def verify_paper(
         checks,
         "KDD single-blind source mode",
         single_blind_source,
-        "main.tex uses sigconf,review and inputs author_metadata.tex",
+        "main.tex uses sigconf,review,screen and inputs author_metadata.tex",
     )
     add_check(
         checks,
@@ -221,10 +221,10 @@ def verify_paper(
                 "KDD '27",
                 "August 1--5, 2027",
                 "San Jose, CA, USA",
-                "\\documentclass[sigconf,review]{acmart}",
+                "\\documentclass[sigconf,review,screen]{acmart}",
             )
         ),
-        "single-blind review-mode acmart; KDD 2027 dates and location",
+        "single-blind screen review-mode acmart; KDD 2027 dates and location",
     )
     add_check(
         checks,
@@ -423,8 +423,13 @@ def verify_paper(
         "eight-page main-paper boundary",
         any("CONCLUSION" in page_text.get(page, "") for page in range(1, 9))
         and "REFERENCES" not in page_text.get(8, "")
-        and "REFERENCES" in page_text.get(9, ""),
-        "conclusion is within the first eight pages; references start on page 9",
+        and "REFERENCES" in page_text.get(9, "")
+        and "WebArena: A Realistic Web Environment for Building Autonomous Agents"
+        in re.sub(r"\s+", " ", page_text.get(9, "")),
+        (
+            "conclusion is within the first eight pages; references start on "
+            "page 9 and include the final cited work"
+        ),
     )
     add_check(
         checks,
@@ -521,7 +526,22 @@ def verify_paper(
 
     references = (PAPER_DIR / "references.bib").read_text(encoding="utf-8")
     reference_count = len(re.findall(r"^\s*@", references, flags=re.MULTILINE))
-    add_check(checks, "reference count", reference_count >= 35, f"references={reference_count}")
+    bibliography_safe = (
+        "\\balance" not in main
+        and "\\nobalance" not in main
+        and "\\documentclass[sigconf,review,screen]{acmart}" in main
+        and all(
+            f"{setting}=FinAuthLinkBlue" in main
+            for setting in ("linkcolor", "citecolor", "urlcolor", "filecolor")
+        )
+        and main.index("\\begin{document}") < main.index("\\hypersetup")
+    )
+    add_check(
+        checks,
+        "reference count",
+        reference_count >= 35 and bibliography_safe,
+        f"references={reference_count}; complete-layout-and-link-style={bibliography_safe}",
+    )
     banned_submission_tokens = [
         token
         for token in ("Conference Placeholder", "anonymous@example.com", "Anonymous Institution")
